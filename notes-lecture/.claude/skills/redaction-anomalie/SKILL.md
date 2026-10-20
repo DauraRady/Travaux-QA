@@ -1,9 +1,15 @@
 ---
 name: redaction-anomalie
-description: Rédige une anomalie (bug fonctionnel ou d'interface) reproductible et sourcée à partir de ce que le testeur a constaté, vérifie les doublons, puis la crée dans Azure DevOps après aperçu et validation explicite. À utiliser pour « rédige un bug », « j'ai trouvé une anomalie », « crée le bug dans ADO ».
+description: 'Rédige une anomalie (bug fonctionnel ou d''interface) reproductible et sourcée à partir de ce que le testeur a constaté, vérifie les doublons, puis la crée dans Azure DevOps après aperçu et validation explicite. À utiliser pour « rédige un bug », « j''ai trouvé une anomalie », « crée le bug dans ADO ».'
+argument-hint: '<ce que j''ai constaté>'
+disable-model-invocation: true
 ---
 
 # Rédaction d'une anomalie
+
+Arguments : $ARGUMENTS
+
+`<url>` et `<projet ADO>` viennent de la section 0 du contexte du projet.
 
 Un bon bug se reproduit sans poser de question, compare un résultat obtenu à un résultat attendu sourcé, et ne contient qu'un seul écart.
 
@@ -11,7 +17,7 @@ Un bon bug se reproduit sans poser de question, compare un résultat obtenu à u
 
 Demander ce qui manque, en une seule fois, parmi :
 1. L'US concernée (id) et, si connu, le cas de test exécuté.
-2. L'environnement (ITG, PREPROD…), la version ou la date du déploiement, le navigateur.
+2. L'environnement (ceux de la section 0 du contexte), la version ou la date du déploiement, le navigateur.
 3. Le rôle utilisé (jamais le nom d'une vraie personne : « compte Admin de test »).
 4. Les étapes faites, dans l'ordre, et les données utilisées.
 5. Ce qui s'est affiché.
@@ -33,7 +39,7 @@ Chercher les bugs ouverts qui ressemblent, avec deux ou trois mots clés du titr
 {"query": "SELECT [System.Id], [System.Title], [System.State] FROM WorkItems WHERE [System.TeamProject] = @project AND [System.WorkItemType] = 'Bug' AND [System.Title] CONTAINS 'Retard'"}
 ```
 
-envoyé en POST sur `https://<organisation>.visualstudio.com/{project}/_apis/wit/wiql?api-version=7.1`. Montrer les résultats proches. Si l'un correspond, proposer de commenter ce bug plutôt que d'en créer un.
+envoyé en POST sur `<url>/<projet ADO>/_apis/wit/wiql?api-version=7.1`. Montrer les résultats proches. Si l'un correspond, proposer de commenter ce bug plutôt que d'en créer un.
 
 ## 4. Rédiger
 
@@ -89,7 +95,7 @@ Afficher l'anomalie complète telle qu'elle sera créée, puis demander : « Je 
    EOF
    ```
    Le champ `bug.json` contient : `titre`, `environnement`, `preconditions`, `etapes`, `obtenu`, `attendu`, `frequence`, `gravite` (ex. « 2 - High »), `area`, `iteration` (ceux de l'US), `us`.
-2. Créer : `POST .../_apis/wit/workitems/$Bug?api-version=7.1`, `Content-Type: application/json-patch+json`, `--data-binary @.qc-agent/bug-patch.json`. Si le modèle de processus refuse un champ (400), le signaler et réessayer une fois sans ce champ.
+2. Créer : `POST <url>/<projet ADO>/_apis/wit/workitems/$Bug?api-version=7.1`, `Content-Type: application/json-patch+json`, `--data-binary @.qc-agent/bug-patch.json`. Si le modèle de processus refuse un champ (400), le signaler et réessayer une fois sans ce champ.
 3. Lier le bug à l'US (et au cas de test s'il est connu) avec une relation `System.LinkTypes.Related`, un appel par lien.
 4. Relire le bug créé et vérifier le titre et les liens.
 

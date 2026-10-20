@@ -1,6 +1,6 @@
 # CONTEXTE PROJET : [NOM DU PROJET]
 
-Fichier lu par l'agent QC avant chaque analyse d'US. Il donne le vocabulaire, les rôles, les statuts, les règles déjà validées et les données de test du projet, pour que chaque US ne soit pas analysée isolément.
+Fichier lu par l'agent QA avant chaque analyse d'US. Il donne la configuration Azure DevOps, le vocabulaire, les rôles, les statuts, les règles déjà validées et les données de test du projet, pour que chaque US ne soit pas analysée isolément.
 
 | En-tête | Valeur |
 |---|---|
@@ -10,9 +10,21 @@ Fichier lu par l'agent QC avant chaque analyse d'US. Il donne le vocabulaire, le
 
 Règles de tenue du fichier :
 
-1. Une ligne n'entre ici que si elle a une source (US, décision du PO, PRD, maquette citée). Sans source, elle va en section 9.
-2. Une règle remplacée n'est pas supprimée : son statut passe à `remplacée` et la colonne « Remplacée par » est remplie.
-3. Ce fichier ne remplace jamais l'US en cours : il la complète.
+1. Une ligne n'entre ici que si elle a une source (US, décision du PO datée, PRD, maquette citée). Sans source, elle va en section 9.
+2. L'agent n'écrit dans ce fichier que par `/init-contexte` (création) et `/maj-contexte` (après aperçu et « oui »). Un humain relit les différences avant chaque commit.
+3. Une règle remplacée n'est pas supprimée : son statut passe à `remplacée` et la colonne « Remplacée par » est remplie.
+4. Ce fichier ne remplace jamais l'US en cours : il la complète.
+5. C'est une synthèse : une ligne par règle, pas de paragraphe recopié des sources.
+
+## 0. Azure DevOps du projet
+
+| Clé | Valeur |
+|---|---|
+| URL de l'organisation | [https://<organisation>.visualstudio.com ou https://dev.azure.com/<organisation>] |
+| Projet Azure DevOps | [nom] |
+| Plan de test par défaut | [id] |
+| Area Path par défaut | [chemin] |
+| Environnements de recette | [ex. ITG, PREPROD] |
 
 ## 1. Le projet en cinq lignes
 

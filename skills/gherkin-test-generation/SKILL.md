@@ -1,15 +1,18 @@
 ---
 name: gherkin-test-generation
-description: Rédige en français les scénarios Gherkin d'une User Story analysée (nominaux, négatifs, limites), avec toutes les préconditions (rôle connecté, écran, données), les actions et les résultats exacts, sans rien inventer. Prépare aussi la version cas manuel pour Azure Test Plans. À utiliser pour « écris les cas de test », « génère le Gherkin ».
+description: 'Rédige en français les scénarios Gherkin d''une User Story analysée (nominaux, négatifs, limites), avec toutes les préconditions (rôle connecté, écran, données), les actions et les résultats exacts, sans rien inventer. Prépare aussi la version cas manuel pour Azure Test Plans. À utiliser pour « écris les cas de test », « génère le Gherkin ».'
+argument-hint: '<id US> [manuel]'
 ---
 
 # Rédaction des scénarios Gherkin
+
+Arguments : $ARGUMENTS
 
 Lire `references/guide-ecriture-gherkin.md` à la première utilisation de la session : il contient les exemples bons et mauvais.
 
 ## Point de départ
 
-1. Partir de la sortie du skill `us-analysis` : règles, préconditions, combinaisons, verdict. Ne pas refaire l'analyse.
+1. Partir de l'analyse écrite dans `qc-reports/US-<id>.md` : règles, préconditions, combinaisons, verdict. Ne pas refaire l'analyse. Les scénarios s'ajoutent à la suite, dans le même fichier.
 2. S'il n'y a pas d'analyse, appliquer d'abord `us-analysis`.
 3. Verdict « Non prête » : ne rédiger aucun scénario, renvoyer aux questions.
 4. Ne rédiger des scénarios que pour les règles Rédigeables. Une règle À arbitrer ou Exploratoire n'a jamais de scénario.
@@ -38,7 +41,7 @@ Jamais `Given`, `When`, `Then`, `And`, `Feature`, `Scenario`.
 
 Écrire une précondition par ligne, dans cet ordre :
 
-1. Qui est connecté : rôle et compte fictif. Le rôle vient du « En tant que » de l'US ou du contexte projet (section Connexion et comptes de test). « l'utilisateur "ADM-TEST-01" est connecté avec le rôle "Admin" ».
+1. Qui est connecté : rôle et compte fictif. Le rôle vient du « En tant que » de l'US ou du contexte projet (section 4, Connexion et comptes de test). « l'utilisateur "ADM-TEST-01" est connecté avec le rôle "Admin" ».
 2. Où il se trouve : l'écran de départ. « il est sur la page "Liste des demandes" ».
 3. Ce qui existe déjà : chaque donnée qui influence le résultat, avec un identifiant fictif et la valeur qui compte. « la demande "DEM-TEST-03" est au statut "Soumise" ».
 4. Les réglages ou états particuliers nécessaires au cas.
@@ -126,10 +129,10 @@ Les règles À arbitrer et Exploratoires de l'analyse, en une ligne chacune, ave
 
 ## Contrôle sans IA
 
-Si le dépôt contient le script `scripts/build_tc.py` de ce skill, le lancer sur le rapport avant de livrer :
+Lancer le script de ce skill sur le rapport avant de livrer (`python` si `python3` n'existe pas) :
 
 ```bash
-python3 .github/skills/gherkin-test-generation/scripts/build_tc.py check qc-reports/US-<id>.md
+python3 .claude/skills/gherkin-test-generation/scripts/build_tc.py check qc-reports/US-<id>.md
 ```
 
 Il refuse les mots-clés anglais, un deuxième `Quand`, un `Quand` après `Alors`, un scénario sans précondition, sans action ou sans résultat, un résultat vague ou avec « ou », un paramètre absent des `Exemples`, les titres en double. Corriger chaque erreur et relancer jusqu'à zéro.

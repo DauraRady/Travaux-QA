@@ -1,11 +1,14 @@
 ---
 name: us-analysis
-description: Analyse une User Story et ses critères d'acceptation avec le contexte projet, sans inventer de règle. Produit les règles avec leur source, les préconditions (rôle, données, écran), les combinaisons à tester, les questions au PO et un verdict qui dit quoi rédiger. À utiliser avant toute rédaction de cas de test, ou pour « analyse cette US ».
+description: 'Analyse une User Story et ses critères d''acceptation avec le contexte projet, sans inventer de règle. Produit les règles avec leur source, les préconditions (rôle, données, écran), les combinaisons à tester, les questions au PO, un verdict qui dit quoi rédiger et les propositions d''ajout au contexte. À utiliser avant toute rédaction de cas de test, ou pour « analyse cette US ».'
+argument-hint: '<id US> [projet=<nom>] [commentaires]'
 ---
 
 # Analyse d'une User Story
 
-La sortie de ce skill est l'entrée du skill `gherkin-test-generation`. Elle doit être courte : une personne doit pouvoir la relire en cinq minutes.
+Arguments : $ARGUMENTS
+
+La sortie de ce skill est l'entrée du skill `gherkin-test-generation`. Elle s'écrit dans `qc-reports/US-<id>.md` et doit être courte : une personne doit pouvoir la relire en cinq minutes.
 
 ## Principe non négociable
 
@@ -23,10 +26,12 @@ Une bonne pratique, une habitude du domaine ou une convention d'interface ne ren
 
 ## Étape 0 : lire les sources
 
-1. Lire l'US : description, critères d'acceptation, et les commentaires quand ils sont fournis.
-2. Lire `CONTEXTE_PROJET_<projet>.md` s'il existe. S'il n'existe pas, le dire en une ligne et continuer sans rien inventer pour compenser.
-3. Si les critères ne sont pas numérotés, les numéroter `AC-1`, `AC-2` dans l'ordre du texte.
-4. Si l'US contient des données client ou personnelles réelles, le signaler et n'utiliser ensuite que des données fictives.
+1. Lire l'US : description, critères d'acceptation, et les commentaires quand ils sont demandés.
+2. Lire `docs/projets/<projet>/CONTEXTE.md` en entier, y compris la section 9 (points à confirmer). S'il n'existe pas, le dire en une ligne, proposer `/init-contexte` et continuer sans rien inventer pour compenser.
+3. Dans `docs/projets/<projet>/sources/`, lire seulement les passages que l'US ou le contexte citent.
+4. Une information donnée dans la demande (réponse du PO, texte d'une maquette) compte comme source seulement avec son auteur et sa date. Une décision du PO est de rang 2, un autre complément de rang 4.
+5. Si les critères ne sont pas numérotés, les numéroter `AC-1`, `AC-2` dans l'ordre du texte.
+6. Si l'US contient des données client ou personnelles réelles, le signaler et n'utiliser ensuite que des données fictives.
 
 Priorité en cas de désaccord entre sources :
 
@@ -103,7 +108,7 @@ Le verdict porte sur le contenu de l'US, jamais sur une personne.
 
 ## Format de sortie
 
-Cinq sections, toujours dans cet ordre. Une section sans contenu tient en une ligne : « Aucun ».
+Six sections, toujours dans cet ordre. Une section sans contenu tient en une ligne : « Aucun ».
 
 ```
 ## 1. Sources
@@ -121,7 +126,22 @@ Puis, s'il y en a, les écarts avec le contexte projet et les idées exploratoir
 
 ## 5. Verdict
 Prête, Partiellement prête ou Non prête, en une phrase qui dit pourquoi.
+
+## 6. Propositions pour le contexte
+| # | Proposition (une ligne) | Section du contexte | Type | Source |
+Type : ajout, confirmation, remplacement, point à confirmer. Rien n'est écrit dans le contexte : /maj-contexte le fera après validation.
 ```
+
+## Propositions pour le contexte
+
+Proposer seulement ce qui servira à d'autres US : un rôle, un statut, une transition, une règle transverse, un terme métier, un écran. Le détail propre à cette US reste dans le rapport.
+
+| Peut être proposé | Ne peut pas être proposé |
+|---|---|
+| Une règle Rédigeable de l'US, avec sa section et son critère | Une règle À arbitrer présentée comme une règle |
+| Une question bloquante, comme point à confirmer | Une réponse supposée à cette question |
+| Un écart entre l'US et le contexte, comme remplacement ou point à confirmer | Une bonne pratique, une habitude du domaine |
+| Un fait déjà dans le contexte, comme confirmation | Une donnée client réelle |
 
 ## Questions au PO
 
@@ -129,7 +149,7 @@ Une bonne question cite la règle, dit ce qui manque, reste neutre et appelle un
 
 « R4 : l'US indique qu'une entité inconnue est refusée, mais aussi que l'entité ne peut pas être saisie librement. Comment l'utilisateur peut-il choisir une entité inconnue ? »
 
-Ne pas poser une question dont la réponse est déjà dans l'US, une décision ou le contexte projet.
+Ne pas poser une question dont la réponse est déjà dans l'US, une décision ou le contexte projet. Si l'US touche un point déjà ouvert en section 9 du contexte, reprendre ce point (`CONF-03`) au lieu d'en créer un nouveau.
 
 ## Avant de livrer
 
@@ -137,4 +157,5 @@ Ne pas poser une question dont la réponse est déjà dans l'US, une décision o
 2. Aucune règle À arbitrer n'a de résultat attendu écrit.
 3. Les préconditions disent avec quel rôle on se connecte.
 4. Aucun message, statut, code ou écran n'apparaît s'il n'est pas dans une source.
-5. Le rapport tient en cinq sections.
+5. Le rapport tient en six sections.
+6. Chaque proposition pour le contexte a une source et aucune n'est une hypothèse.
