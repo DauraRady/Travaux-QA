@@ -6,10 +6,10 @@ Je te propose une évolution de l'agent QC. Les deux présentations jointes serv
 
 Ce que j'ai constaté sur l'agent actuel, à partir de sa sortie sur l'US 417829 « Créer une nouvelle demande » :
 
-1. La publication dans Azure DevOps fonctionne bien et la lecture de l'écran est fidèle à l'US. Je garde les deux.
-2. Chaque cas tient sur une ligne Given, When, Then en anglais, sans rôle, sans écran de départ ni données : il faut tout reconstituer avant d'exécuter.
-3. La règle de validation (statut de la demande déjà existante sur l'entité) n'est testée que dans 1 situation sur 5.
-4. Quand l'US est floue ou se contredit, l'agent écrit quand même un résultat attendu au lieu de poser la question.
+1. Les cas décrivent fidèlement l'écran (TC-001 à TC-011, sections 1 à 3 de l'US) et la publication est bien outillée dans ses consignes (codes HTTP contrôlés, liens vérifiés). Je garde les deux.
+2. Chaque cas tient sur une ligne Given, When, Then, sans rôle, sans écran de départ ni données : par exemple TC-005, « Given le formulaire de création ouvert ». Il faut tout reconstituer avant d'exécuter.
+3. La règle de validation de la section 4 de l'US décrit 5 situations selon le statut de l'entité (sans statut, validé, en cours, retard, révision). Dans les cas TC-001 à TC-015, une seule est couverte (TC-012).
+4. Son format n'a pas de place pour une question au PO. Par exemple, il prévoit de tester le message « entité ID inconnue » (section 3) sans relever que l'entité ne peut pas être saisie librement. Il ajoute aussi un cas que l'US ne décrit pas (désactivation du bouton, anti double clic).
 
 Ce que je propose :
 
@@ -19,7 +19,7 @@ Ce que je propose :
 4. Des scénarios en Gherkin français, avec le rôle connecté, l'écran, les données, une action et un résultat exact par ligne.
 5. Aucune écriture dans Azure DevOps sans aperçu et accord explicite, contrôlé aussi par un script. Il est aussi possible de produire un CSV à importer dans Test Plans.
 
-Où on en est : j'ai appliqué les nouvelles consignes une fois sur l'US 417829. Résultat : 23 cas exécutables et 9 questions au PO, dont 2 bloquantes (entité inconnue, documents obligatoires). Ce n'est pas encore une preuve : l'agent n'a pas encore tourné dans notre outil ni sur notre Azure DevOps.
+Où on en est : j'ai appliqué les nouvelles consignes une fois sur l'US 417829. Résultat : 23 cas exécutables et 9 questions au PO, dont 2 bloquantes (entité ID inconnue, section 3 ; documents obligatoires, section 4). Ce n'est pas encore une preuve : l'agent n'a pas encore tourné dans notre outil ni sur notre Azure DevOps.
 
 Pour avancer, j'aurais besoin de :
 
