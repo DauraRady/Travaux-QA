@@ -1,205 +1,186 @@
-# Guide d'écriture d'un scénario Gherkin
+# Guide d'écriture Gherkin : exemples
 
-Ce guide accompagne le skill `gherkin-test-generation`. Toutes les données de l'exemple sont fictives.
+Ce guide montre les règles du skill `gherkin-test-generation` sur des exemples. Les règles elles-mêmes sont dans le skill ; ici, seulement des cas bons et mauvais. Toutes les données sont fictives.
 
-## 1. À quoi sert chaque mot-clé
+## 1. Écrire en français, avec toutes les préconditions
 
-| Mot-clé | Rôle | Question à laquelle il répond | Exemple |
-|---|---|---|---|
-| `Fonctionnalité:` | Le sujet du fichier : une capacité métier | De quoi parle ce fichier ? | `Fonctionnalité: Validation d'une demande` |
-| `Règle:` | Une règle métier, qui regroupe ses scénarios | Quelle règle ces exemples illustrent-ils ? | `Règle: Seule une demande soumise peut être validée` |
-| `Contexte:` | Les préconditions communes à tous les scénarios | Qu'est-ce qui est vrai avant chaque scénario, sans exception ? | `Étant donné que je suis connecté avec le rôle "Valideur"` |
-| `Scénario:` | Un exemple concret de la règle | Quel comportement précis vérifie-t-on ? | `Scénario: Valider une demande soumise la fait passer au statut Validée` |
-| `Étant donné` | L'état de départ : les préconditions | Dans quelle situation est-on avant d'agir ? | `Étant donné que la demande "DEM-001" est au statut "Soumise"` |
-| `Quand` | L'action testée, une seule | Que fait l'utilisateur ou le système ? | `Quand je valide la demande "DEM-001"` |
-| `Alors` | Le résultat observable | Qu'est-ce qu'on doit constater ? | `Alors la demande "DEM-001" est au statut "Validée"` |
-| `Et`, `Mais` | Prolongent le mot-clé précédent | | `Et la date de validation est renseignée` |
-| `Plan du scénario:` et `Exemples:` | Le même scénario rejoué avec plusieurs jeux de données | Quelles valeurs testent la même règle ? | Voir section 5 |
+Mauvais : en anglais, et une ligne par mot-clé sans rien de concret.
 
-## 2. La question des préconditions
+```gherkin
+Scenario: Create a request
+  Given an active user
+  When he creates a request
+  Then the request is created
+```
 
-Oui, les préconditions vont dans le Gherkin. Elles s'écrivent avec `Étant donné`, et il y a trois endroits possibles :
+Bon : on sait qui est connecté, où, avec quelles données, ce qu'il fait et ce qu'on vérifie.
 
-| Où | Quand l'utiliser | Exemple |
-|---|---|---|
-| Dans le scénario, en `Étant donné` | La précondition est propre à ce scénario | `Étant donné que la demande "DEM-002" est au statut "Brouillon"` |
-| Dans le `Contexte` de la fonctionnalité | Elle est vraie pour tous les scénarios du fichier | Le rôle connecté, si tous les scénarios utilisent le même |
-| Dans un `Contexte` placé sous une `Règle` | Elle est vraie pour tous les scénarios de cette règle seulement | Un paramétrage propre à la règle |
+```gherkin
+Scénario: Un Admin crée une demande de nouveau mandat
+  Étant donné que l'utilisateur "ADM-TEST-01" est connecté avec le rôle "Admin"
+  Et qu'il est sur la page "Liste des demandes"
+  Et que l'entité "ENT-TEST-01" existe dans le référentiel
+  Quand il clique sur "Nouvelle demande"
+  Et qu'il choisit la nature "Nouveau"
+  Et qu'il sélectionne l'entité "ENT-TEST-01"
+  Et qu'il renseigne la référence "REF-TEST-01" et la reprise "Non"
+  Et qu'il valide la création
+  Alors une demande pour l'entité "ENT-TEST-01" apparaît dans la "Liste des demandes"
+  Et le panneau de création est fermé
+```
 
-Trois erreurs fréquentes :
+Le dernier « Alors » ne dit que ce que l'US décrit. Si l'US ne donne pas le statut de la nouvelle demande, on ne l'invente pas : on pose la question.
 
-1. Écrire un parcours au lieu d'un état. `Étant donné que j'ouvre la page Demandes et que je clique sur DEM-001` décrit des clics. `Étant donné que la demande "DEM-001" est au statut "Soumise"` décrit l'état. La façon d'y arriver (API, base de test, interface) est le travail de l'automatisation ou du testeur, pas du scénario.
-2. Mettre dans le `Contexte` une étape dont un scénario n'a pas besoin. Si un scénario teste un autre rôle, le rôle sort du `Contexte` et passe dans chaque scénario.
-3. Faire dépendre un scénario d'un autre (« la demande validée au scénario précédent »). Chaque scénario pose lui-même son état de départ.
+## 2. Le Contexte pour ce qui est commun à tous les scénarios
 
-Dans Azure Test Plans, un cas de test a aussi un champ de préconditions ou un premier pas de préparation. C'est le même contenu que les `Étant donné` : voir la section 7.
+```gherkin
+Fonctionnalité: Créer une demande
 
-## 3. Mauvais et bon scénario
+  Contexte:
+    Étant donné que l'utilisateur "ADM-TEST-01" est connecté avec le rôle "Admin"
+    Et qu'il est sur la page "Liste des demandes"
+
+  Scénario: Le panneau de création s'ouvre à droite de la liste
+    Quand il clique sur "Nouvelle demande"
+    Alors un panneau de création s'affiche à droite de l'écran
+    Et la "Liste des demandes" reste visible en arrière-plan
+```
+
+Mauvais : mettre dans le Contexte une donnée qui ne sert qu'à un seul scénario.
+
+## 3. Une précondition est un état, pas une suite de clics
 
 Mauvais :
 
 ```gherkin
-Scénario: Test validation
-  Étant donné que j'ouvre l'application
-  Et je saisis "valideur01" dans le champ "Identifiant"
-  Et je clique sur "Se connecter"
-  Et je clique sur le menu "Demandes"
-  Quand je clique sur la ligne "DEM-001"
-  Et je clique sur "Valider"
-  Alors la demande est correctement validée
+Étant donné que je crée une demande
+Et que je la soumets
 ```
-
-| Défaut | Pourquoi c'est un problème |
-|---|---|
-| Titre « Test validation » | On ne sait pas quel comportement est vérifié sans lire les étapes |
-| `Étant donné` en clics | Le scénario casse à chaque changement d'écran, alors que la règle n'a pas changé |
-| Deux actions (`Quand` puis `Et je clique`) | Si le test échoue, on ne sait pas laquelle a échoué |
-| Statut de départ absent | On ne sait pas si DEM-001 était Soumise ou Brouillon : le test peut passer pour une mauvaise raison |
-| « correctement validée » | Rien de vérifiable : quel statut, quelle valeur ? |
 
 Bon :
 
 ```gherkin
-@AC_1 @REGLE_R1 @positif
-Scénario: Valider une demande soumise la fait passer au statut Validée
-  Étant donné que je suis connecté avec le rôle "Valideur"
-  Et que la demande "DEM-001" est au statut "Soumise"
-  Quand je valide la demande "DEM-001"
-  Alors la demande "DEM-001" est au statut "Validée"
+Étant donné que la demande "DEM-TEST-03" existe au statut "Soumise"
 ```
 
-## 4. Exemple complet, pas à pas
+## 4. Plusieurs actions, un seul comportement
 
-US fictive :
+Les `Et` après `Quand` enchaînent les actions d'un même parcours. Mais si l'on veut vérifier deux choses à deux moments, ce sont deux scénarios.
 
-> En tant que valideur, je veux valider une demande soumise afin de lancer la saisie.
->
-> AC-1 : Un valideur peut valider une demande au statut « Soumise » ; elle passe au statut « Validée ».
->
-> AC-2 : Une demande au statut « Brouillon » ne peut pas être validée. Le message « Seules les demandes soumises peuvent être validées » s'affiche.
->
-> AC-3 : Le commentaire de validation est facultatif et limité à 500 caractères. Au-delà, la validation est refusée avec le message « 500 caractères maximum ».
-
-Étape 1 : extraire les règles.
-
-| ID | Règle | Source | Technique |
-|---|---|---|---|
-| R1 | Une demande Soumise validée par un Valideur passe au statut Validée | AC-1 | Transitions d'état |
-| R2 | Une demande Brouillon ne peut pas être validée, message exact fourni | AC-2 | Transitions d'état (transition interdite décrite) |
-| R3 | Commentaire facultatif, 500 caractères maximum, refus au-delà avec message exact | AC-3 | Valeurs limites, partitions |
-
-Étape 2 : repérer ce que la source ne dit pas.
-
-1. Ce qui arrive si un autre rôle que Valideur tente de valider : non décrit.
-2. Ce qui arrive pour les autres statuts (Validée, Rejetée…) : non décrit.
-
-Ces deux points ne donnent aucun scénario. Ils vont en questions.
-
-Étape 3 : choisir le Contexte. Tous les scénarios utilisent le rôle Valideur : il va dans le `Contexte`. Le statut de la demande change d'un scénario à l'autre : il reste dans chaque scénario.
-
-Étape 4 : écrire.
+Mauvais : on vérifie l'ouverture du formulaire ET la création dans le même scénario.
 
 ```gherkin
-# language: fr
-@US_1234
-Fonctionnalité: Validation d'une demande
-  En tant que valideur
-  Je veux valider une demande soumise
-  Afin de lancer la saisie
-
-  Contexte:
-    Étant donné que je suis connecté avec le rôle "Valideur"
-
-  Règle: Seule une demande soumise peut être validée
-
-    # Technique : transitions d'état (transition autorisée)
-    @AC_1 @REGLE_R1 @positif
-    Scénario: Valider une demande soumise la fait passer au statut Validée
-      Étant donné que la demande "DEM-001" est au statut "Soumise"
-      Quand je valide la demande "DEM-001"
-      Alors la demande "DEM-001" est au statut "Validée"
-
-    # Technique : transitions d'état (transition interdite décrite)
-    @AC_2 @REGLE_R2 @negatif
-    Scénario: Une demande en brouillon ne peut pas être validée
-      Étant donné que la demande "DEM-002" est au statut "Brouillon"
-      Quand je tente de valider la demande "DEM-002"
-      Alors le message "Seules les demandes soumises peuvent être validées" est affiché
-      Et la demande "DEM-002" est toujours au statut "Brouillon"
-
-  Règle: Le commentaire de validation est facultatif et limité à 500 caractères
-
-    # Technique : partitions (commentaire absent) et valeurs limites (borne haute)
-    @AC_3 @REGLE_R3 @edge_case
-    Plan du scénario: Une validation avec un commentaire autorisé est acceptée : <cas>
-      Étant donné que la demande "<demande>" est au statut "Soumise"
-      Quand je valide la demande "<demande>" avec un commentaire de <longueur> caractères
-      Alors la demande "<demande>" est au statut "Validée"
-
-      Exemples:
-        | cas              | demande | longueur |
-        | commentaire vide | DEM-003 | 0        |
-        | borne haute      | DEM-004 | 500      |
-
-    # Technique : valeurs limites (juste au-delà de la borne)
-    @AC_3 @REGLE_R3 @negatif
-    Scénario: Une validation avec un commentaire de 501 caractères est refusée
-      Étant donné que la demande "DEM-005" est au statut "Soumise"
-      Quand je tente de valider la demande "DEM-005" avec un commentaire de 501 caractères
-      Alors le message "500 caractères maximum" est affiché
-      Et la demande "DEM-005" est toujours au statut "Soumise"
+Quand il clique sur "Nouvelle demande"
+Alors le panneau de création s'affiche
+Quand il valide la création
+Alors la demande est créée
 ```
 
-Ce qu'il faut remarquer :
+Bon : un scénario pour l'ouverture (exemple du point 2), un autre pour la création (exemple du point 1).
 
-1. Le `Contexte` ne contient que le rôle, commun aux quatre cas.
-2. Chaque scénario a sa propre demande (DEM-001 à DEM-005) : ils peuvent tourner dans n'importe quel ordre.
-3. Les deux refus vérifient que le statut n'a pas bougé. Sans cette ligne, une validation enregistrée puis suivie d'un message d'erreur passerait le test.
-4. 500 et 501 sont séparés : le résultat n'a pas la même forme (accepté d'un côté, message de l'autre), donc pas le même plan.
-5. Les messages sont copiés mot pour mot de l'AC.
+## 5. Un résultat exact, jamais vague
 
-Étape 5 : les éléments non couverts.
-
-| Réf. | Élément | Raison | Question |
-|---|---|---|---|
-| AC-1 | Validation par un autre rôle que Valideur | Refus non décrit par la source | « Que se passe-t-il si un utilisateur sans le rôle Valideur tente de valider une demande ? » |
-| AC-1, AC-2 | Validation d'une demande au statut Validée ou Rejetée | États non décrits | « Que se passe-t-il si on tente de valider une demande déjà Validée ou Rejetée ? » |
-
-## 5. Plan du scénario : quand oui, quand non
-
-| Situation | Choix |
+| Mauvais | Bon |
 |---|---|
-| Même règle, mêmes étapes, seules les valeurs changent, même forme de résultat | `Plan du scénario` |
-| Les résultats n'ont pas la même forme (accepté contre message d'erreur) | Scénarios séparés |
-| Une seule ligne d'Exemples | `Scénario` simple |
-| Les lignes testent toutes la même classe de valeurs | Garder une seule ligne |
+| Alors la demande est correctement validée | Alors la demande "DEM-TEST-03" est au statut "Validée" |
+| Alors un message d'erreur s'affiche | Alors le message "entité inconnue" s'affiche sous le champ "Entité" |
+| Alors le millésime est présélectionné | Alors le champ "Millésime" affiche l'année fiscale en cours |
 
-## 6. Les mots à bannir dans un `Alors`
+## 6. Jamais d'alternative
 
-« correctement », « normalement », « comme prévu », « bien », « avec succès » sans dire ce qui est constaté, « une erreur s'affiche » quand la source donne le texte exact. Si la source ne donne pas le texte, l'étape générique est acceptable, et la question du texte exact part au PO.
+Mauvais :
 
-## 7. Passage vers Azure Test Plans
+```gherkin
+Alors la réponse est "403 ou 404"
+Alors l'utilisateur est redirigé ou un message s'affiche
+```
 
-Azure Test Plans ne lit pas le Gherkin. Si les scénarios doivent devenir des cas de test manuels :
+Si la source dit seulement que l'accès est refusé :
 
-| Gherkin | Cas de test Azure Test Plans |
+```gherkin
+Alors l'accès à la page "Administration" est refusé
+```
+
+et la forme exacte du refus devient une question au PO.
+
+## 7. Un refus vérifie aussi que rien n'a changé
+
+```gherkin
+Scénario: Une entité inconnue bloque la création
+  Étant donné que l'utilisateur "ADM-TEST-01" est connecté avec le rôle "Admin"
+  Et que le panneau de création est ouvert avec la nature "Nouveau"
+  Et que l'entité "ENT-INCONNUE-99" n'existe pas dans le référentiel
+  Quand il renseigne tous les champs obligatoires avec l'entité "ENT-INCONNUE-99"
+  Et qu'il valide la création
+  Alors le champ "Entité" est surligné en rouge
+  Et le message "entité inconnue" s'affiche sous le champ
+  Et aucune demande pour l'entité "ENT-INCONNUE-99" n'apparaît dans la "Liste des demandes"
+```
+
+## 8. Un rôle non autorisé
+
+```gherkin
+Scénario: Un User ne voit pas le bouton de création
+  Étant donné que l'utilisateur "USR-TEST-01" est connecté avec le rôle "User"
+  Quand il ouvre la page "Liste des demandes"
+  Alors la liste des demandes s'affiche
+  Mais le bouton "Nouvelle demande" n'est pas affiché
+```
+
+## 9. Valeurs limites
+
+Si la source dit « de l'année en cours moins 20 ans à plus 10 ans » :
+
+```gherkin
+Plan du scénario: Les bornes du millésime proposées à la création
+  Étant donné que l'utilisateur "ADM-TEST-01" est connecté avec le rôle "Admin"
+  Et que le panneau de création est ouvert avec la nature "Renouvellement"
+  Quand il ouvre la liste du champ "Millésime"
+  Alors le millésime "<millesime>" est <presence> dans la liste
+
+  Exemples:
+    | cas                  | millesime                    | presence |
+    | borne basse          | année en cours moins 20 ans  | proposé  |
+    | juste avant la borne | année en cours moins 21 ans  | absent   |
+    | borne haute          | année en cours plus 10 ans   | proposé  |
+    | juste après la borne | année en cours plus 11 ans   | absent   |
+```
+
+Les lignes « juste avant » et « juste après » ne sont écrites que si l'US dit ce qui se passe au-delà. Ici, l'US définit le contenu de la liste : ce qui est hors de la plage n'y est pas proposé.
+
+## 10. Filtrage mixte
+
+Une règle « l'auditeur voit uniquement ses demandes » se teste avec une demande autorisée et une demande interdite dans le même scénario :
+
+```gherkin
+Scénario: Un auditeur ne voit que les demandes dont il est contact
+  Étant donné que l'utilisateur "AUD-TEST-01" est connecté avec le rôle "Auditeur"
+  Et que "AUD-TEST-01" est contact de la demande "DEM-TEST-01"
+  Et que "AUD-TEST-01" n'est pas contact de la demande "DEM-TEST-02"
+  Quand il ouvre la page "Mes demandes"
+  Alors la demande "DEM-TEST-01" est affichée
+  Et la demande "DEM-TEST-02" n'est pas affichée
+```
+
+## 11. Dates relatives
+
+| Mauvais | Bon |
 |---|---|
-| Titre du `Scénario` | Titre du cas de test |
-| `Contexte` et `Étant donné` | Préconditions (premier pas de préparation, sans résultat attendu, ou champ dédié selon le modèle du projet) |
-| `Quand` | Action d'un pas |
-| `Alors` et ses `Et` | Résultat attendu du même pas |
-| Tags `@AC_n`, `@REGLE_Rn` | Lien vers l'US (Tests / Tested By) et étiquettes |
-| `Plan du scénario` et `Exemples` | Paramètres du cas de test |
+| la demande créée le 15/08/2026 | la demande "DEM-TEST-05" créée il y a 61 jours |
+| le millésime 2026 | le millésime de l'année fiscale en cours |
 
-La convention exacte (champ de préconditions ou premier pas) dépend du modèle de processus du projet : à aligner avec l'équipe.
+Une date fixe fait changer le résultat du cas avec le temps.
 
-## 8. Liste de contrôle avant de livrer
+## 12. Pas de doublon
 
-1. Le titre dit le comportement et son résultat.
-2. Les `Étant donné` décrivent un état, pas des clics.
-3. Le `Contexte` est vrai pour tous les scénarios du fichier ou de la règle.
-4. Un seul `Quand`.
-5. Chaque `Alors` est vérifiable : statut, valeur, message exact.
-6. Chaque refus vérifie que la donnée est inchangée.
-7. Chaque valeur vient de la source ou est annoncée comme valeur de test.
-8. Ce que la source ne dit pas est en question, pas en scénario.
+Reprise « Oui » et Reprise « Non » mènent au même résultat de création : un seul scénario suffit. Un deuxième ne se justifie que si l'US décrit un résultat différent.
+
+## 13. Du Gherkin au cas manuel
+
+Le scénario du point 7 devient :
+
+| Pas | Action | Résultat attendu |
+|---|---|---|
+| 1 | Préconditions : connecté avec "ADM-TEST-01" (Admin) ; panneau de création ouvert, nature "Nouveau" ; l'entité "ENT-INCONNUE-99" n'existe pas | |
+| 2 | Renseigner tous les champs obligatoires avec l'entité "ENT-INCONNUE-99" | |
+| 3 | Valider la création | Le champ "Entité" est surligné en rouge. Le message "entité inconnue" s'affiche sous le champ. Aucune demande pour "ENT-INCONNUE-99" n'apparaît dans la liste |

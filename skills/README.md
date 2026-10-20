@@ -1,25 +1,31 @@
-# Skills QA pour Claude Code
+# Skills QA : analyse d'US et rédaction Gherkin
 
-| Skill | Ce qu'il fait | Quand l'utiliser |
-|---|---|---|
-| `us-analysis` | Analyse une US et ses AC sans inventer de règle, rend un verdict de préparation, les questions d'arbitrage et les pistes de test | Avant un affinage, un Three Amigos ou une génération de tests |
-| `gherkin-test-generation` | Génère des scénarios Gherkin en français, traçables, avec les techniques de conception et la liste des éléments non couverts | Quand l'US est Prête ou Partiellement prête |
-
-Le guide `gherkin-test-generation/references/guide-ecriture-gherkin.md` explique comment écrire un scénario, avec un exemple complet commenté.
-
-## Installation
-
-1. Copier les deux dossiers dans `.claude/skills/` du projet (partagé avec l'équipe via Git) ou dans `~/.claude/skills/` (pour soi seul).
-2. Relancer Claude Code.
-3. Coller l'US dans le chat : « analyse cette US », puis « génère les scénarios Gherkin ». Claude charge le skill d'après sa description.
+| Fichier | Rôle |
+|---|---|
+| `contexte-projet/MODELE_CONTEXTE_PROJET.md` | Modèle du fichier de contexte d'un projet : rôles, comptes de test, statuts, règles validées, données fictives, points à confirmer. À remplir une fois par projet et à tenir à jour |
+| `us-analysis/SKILL.md` | Analyse une US avec le contexte projet, sans inventer : règles avec leur source et leur statut, préconditions, combinaisons, questions au PO, verdict |
+| `gherkin-test-generation/SKILL.md` | Rédige les scénarios en français à partir de l'analyse : préconditions complètes, actions, résultats exacts ; version cas manuel pour Azure Test Plans |
+| `gherkin-test-generation/references/guide-ecriture-gherkin.md` | Exemples bons et mauvais. Les règles sont dans le skill, les exemples dans le guide |
 
 ## Enchaînement
 
-1. `us-analysis` sur l'US collée.
-2. Réponses du PO aux questions bloquantes.
-3. `gherkin-test-generation` sur l'US et la sortie de l'analyse.
-4. Relecture humaine des scénarios et des éléments non couverts avant tout usage.
+1. Remplir `CONTEXTE_PROJET_<projet>.md` à partir du modèle (une fois, puis à chaque décision).
+2. `us-analysis` sur l'US.
+3. Réponses du PO aux questions bloquantes.
+4. `gherkin-test-generation` sur la sortie de l'analyse.
+5. Relecture humaine avant tout usage ou publication.
 
-Aucune donnée client réelle dans les US collées : remplacer par des valeurs fictives.
+## Ce qui a changé par rapport à la version précédente
 
-Fichiers encodés en UTF-8.
+1. Une seule source pour chaque règle : rien n'est répété entre les skills et le guide.
+2. Trois statuts par règle (Rédigeable, À arbitrer, Exploratoire) : seule une règle Rédigeable produit un scénario.
+3. L'analyse relève les préconditions (rôle connecté, écran, données) et le skill Gherkin les écrit toutes en Étant donné.
+4. Quand peut être suivi de Et pour les actions d'un même parcours ; un scénario reste un seul comportement.
+5. Plus de tags de traçabilité dans le Gherkin : un tableau de couverture en fin de rapport suffit.
+6. Rapport en cinq sections pour l'analyse et trois pour la rédaction.
+
+## Installation
+
+Copier les dossiers dans `.github/skills/` (GitHub Copilot) ou `.claude/skills/` (Claude Code) du dépôt, et le fichier de contexte rempli à la racine du dépôt ou dans `docs/`.
+
+Aucune donnée client réelle dans les US : uniquement des valeurs fictives. Fichiers encodés en UTF-8.
