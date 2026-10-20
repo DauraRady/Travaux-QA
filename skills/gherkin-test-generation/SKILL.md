@@ -124,6 +124,16 @@ Couvert, partiel ou non couvert, avec la raison (renvoi à la question de l'anal
 Les règles À arbitrer et Exploratoires de l'analyse, en une ligne chacune, avec le renvoi à la question. Ne pas les réécrire.
 ```
 
+## Contrôle sans IA
+
+Si le dépôt contient le script `scripts/build_tc.py` de ce skill, le lancer sur le rapport avant de livrer :
+
+```bash
+python3 .github/skills/gherkin-test-generation/scripts/build_tc.py check qc-reports/US-<id>.md
+```
+
+Il refuse les mots-clés anglais, un deuxième `Quand`, un `Quand` après `Alors`, un scénario sans précondition, sans action ou sans résultat, un résultat vague ou avec « ou », un paramètre absent des `Exemples`, les titres en double. Corriger chaque erreur et relancer jusqu'à zéro.
+
 ## Avant de livrer
 
 1. Tous les mots-clés sont en français.

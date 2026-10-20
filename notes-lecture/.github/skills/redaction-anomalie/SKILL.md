@@ -21,8 +21,8 @@ Une capture d'écran qui montre des données client réelles ne doit pas être u
 
 ## 2. Trouver le résultat attendu
 
-1. Lire l'US (description, critères, commentaires) avec le même accès que le skill `analyse-us`.
-2. Le résultat attendu doit venir d'une source : `AC-n`, une règle de l'US, un commentaire du PO (auteur et date), ou la maquette citée par l'US (le testeur décrit ce qu'elle montre ; l'agent ne la lit pas).
+1. Lire l'US (description, critères, commentaires) avec le même accès que l'agent.
+2. Le résultat attendu doit venir d'une source : un critère d'acceptation, une règle de l'US, un commentaire du PO (auteur et date), ou la maquette citée par l'US (le testeur décrit ce qu'elle montre ; l'agent ne la lit pas).
 3. Si aucune source ne dit ce qui était attendu, ce n'est pas un bug mais une question : proposer de la formuler pour le PO au lieu de créer l'anomalie.
 
 ## 3. Vérifier les doublons
@@ -44,7 +44,7 @@ envoyé en POST sur `https://<organisation>.visualstudio.com/{project}/_apis/wit
 | Préconditions | Les données nécessaires, avec identifiants fictifs ou de recette |
 | Étapes | Numérotées, une action par étape, assez précises pour être rejouées sans question |
 | Résultat obtenu | Ce qui s'affiche, mot pour mot pour un message |
-| Résultat attendu | Ce qui devait s'afficher, avec sa source (US <id>, AC-n, ou commentaire du <date>) |
+| Résultat attendu | Ce qui devait s'afficher, avec sa source (US <id> et critère, ou commentaire du <date>) |
 | Fréquence | Systématique, ou x fois sur y |
 | Gravité proposée | Voir l'échelle, avec une phrase de justification |
 | Liens | US concernée, et cas de test s'il existe |
