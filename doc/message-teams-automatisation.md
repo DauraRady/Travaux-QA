@@ -2,12 +2,14 @@
 
 Bonjour [Prénom],
 
-Pour le 100 % automatisé, je propose de ne pas automatiser tout de suite.
+Pour le 100 % automatisé, je propose de ne pas démarrer l'automatisation tout de suite.
 
-1. L'application est encore jeune : un seul formulaire, pas encore de validation. Des scripts écrits maintenant seraient à reprendre à chaque sprint.
-2. Nous n'avons pas d'environnement dédié : la préprod est partagée avec le métier, qui teste après moi, et la prod est exclue.
-3. La première passe sur une fonctionnalité nouvelle doit rester manuelle pour repérer ce que les US n'ont pas prévu. La recette métier restera de toute façon manuelle.
+1. Les parcours ne sont pas encore finalisés : création de la demande de mandat, puis formulaire CAC. Des champs sont ajoutés à chaque sprint, donc des scripts écrits maintenant seraient à reprendre en continu.
+2. La première passe sur une fonctionnalité nouvelle doit rester manuelle pour repérer ce que les US n'ont pas prévu. La recette métier restera de toute façon manuelle.
+3. Côté environnement, la préprod est partagée avec le métier. La prod privatisée pourrait servir à quelques tests de vérification, mais pas à toute la recette.
 
-Je propose de lancer l'automatisation quand le premier parcours sera complet (de la création à la validation), stable sur un sprint, et que nous aurons un environnement ou des données de test maîtrisés. D'ici là, je prépare le terrain : identification des cas à automatiser en priorité et demande d'identifiants stables aux développeurs.
+Je propose de lancer l'automatisation vers le sprint 6 ou 7, une fois les parcours stabilisés. D'ici là, je prépare le terrain : identification des cas à automatiser en priorité et demande d'identifiants stables aux développeurs.
 
-Une question : le formulaire CAC repose-t-il sur une API que nous pouvons appeler directement ? Si oui, ce serait le premier niveau à automatiser.
+En parallèle, je peux tester l'agent QA sur les US de Conf Portal (analyse des US et génération des cas de test) pour voir ce qu'il apporte concrètement avant de l'étendre.
+
+Une question : le formulaire repose-t-il sur une API que nous pouvons appeler directement ? Si oui, ce serait le premier niveau à automatiser.
