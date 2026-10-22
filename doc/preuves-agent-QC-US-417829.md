@@ -56,9 +56,11 @@ US §3 Parcours 2, Entité ID :
 | « Non testé » pour 4 situations | La sortie continue après TC-015 | « Non trouvé dans TC-001 à TC-015 » |
 | « Entité sans demande » | L'US dit « entité qui n'a pas encore de statut » | Texte de l'US repris tel quel ; notre lecture « aucune demande » est à confirmer |
 
-## Notre propre résultat (premier essai, hors de l'outil de l'équipe)
+## Résultat du nouvel agent (lancé dans Claude Code, modèle Claude Sonnet 5.5)
 
 | Chiffre | Où le vérifier |
 |---|---|
-| 23 cas exécutables | CSV produit par le script de contrôle, à partir du rapport US-417829 |
-| 9 questions au PO, dont 2 bloquantes (Q1 entité inconnue, Q3 documents obligatoires) | Rapport US-417829, partie A, section 4 |
+| 22 cas exécutables, 14 scénarios, 0 erreur au contrôle | `resultat-agent-US-417829.md`, contrôlé par `build_tc.py check` puis `csv` |
+| 5 situations de la règle de validation couvertes | Même rapport, fonctionnalité « Valider la création d'une demande » |
+| 12 questions au PO, dont 6 bloquantes | Même rapport, section 4 |
+| Premier passage trop prudent (2 situations sur 5), consigne corrigée puis agent relancé | Skill `us-analysis`, règle sur les détails manquants |

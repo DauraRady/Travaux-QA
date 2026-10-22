@@ -61,7 +61,7 @@ Si on ne sait pas avec quel rôle agir, ou quelle donnée préparer, la règle n
 ### 3. Alors : chaque résultat observable
 
 1. Un résultat par ligne : `Alors`, puis `Et`.
-2. Chaque résultat se vérifie sans interprétation : statut exact, valeur exacte, message copié mot pour mot de la source, élément présent ou absent, champ en erreur.
+2. Chaque résultat se vérifie sans interprétation : statut exact, valeur exacte, message copié mot pour mot de la source, élément présent ou absent, champ en erreur. Si la source annonce un message sans en donner le texte, écrire « un message d'erreur s'affiche » (ou « de confirmation ») et laisser la question du texte ouverte : le scénario reste rédigé.
 3. Interdits hors guillemets : correctement, normalement, comme prévu, fonctionne, est OK, avec succès (sans préciser le résultat), bien.
 4. Jamais d'alternative : pas de « 403 ou 404 », pas de « est redirigé ou un message s'affiche ». Si la source ne tranche pas, garder seulement ce qu'elle dit (« la création est refusée ») et poser la question.
 5. Un refus vérifie deux choses : le refus (message, champ en erreur) ET la donnée inchangée (« aucune nouvelle demande n'apparaît dans la liste », « la demande "DEM-TEST-03" est toujours au statut "Soumise" »).

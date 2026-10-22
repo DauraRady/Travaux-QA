@@ -59,12 +59,23 @@ Une règle est À arbitrer dès qu'on y trouve l'un de ces signaux :
 1. Terme vague sans valeur mesurable (« rapidement », « correctement », « si besoin »).
 2. Liste annoncée mais absente (« les champs suivants » sans la liste).
 3. Branche « sinon » manquante : on sait ce qui se passe si la condition est vraie, pas si elle est fausse.
-4. Refus ou erreur sans résultat observable, ou message sans texte exact.
+4. Refus ou erreur dont on ne sait même pas s'il bloque l'action.
 5. Limite sans comportement au-delà de la limite.
 6. Rôle ou statut cité sans être défini.
 7. Calcul sans formule, unité ou arrondi.
 8. Renvoi vers un document ou une US non fournis.
 9. Deux phrases de l'US qui se contredisent.
+
+Un détail manquant ne rend pas toute la règle À arbitrer. Si l'US dit ce qui se passe, la règle est Rédigeable avec ses mots, et seul le détail devient une question non bloquante :
+
+| L'US dit | Rédigeable tel quel | Question non bloquante |
+|---|---|---|
+| « erreur si … » | L'action est refusée, rien n'est créé ni modifié, un message d'erreur s'affiche | Texte exact du message |
+| « tous les champs sont obligatoires » et le système les vérifie à la validation | Un champ vide bloque la validation | Texte et emplacement du message |
+| « par défaut sur l'année en cours », « de -20 à +10 » | La valeur par défaut et les bornes, exprimées avec les mots de l'US | Définition du terme si elle peut varier |
+| « un message de confirmation apparaît (cf maquettes) » | Un message de confirmation s'affiche | Texte exact |
+
+Une règle n'est À arbitrer que si le comportement lui-même manque ou se contredit. Une règle laissée À arbitrer alors que l'US décrit le comportement est une couverture perdue, aussi grave qu'un résultat inventé.
 
 ## Étape 2 : préconditions
 
