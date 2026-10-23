@@ -1,22 +1,21 @@
-# Message au PO : estimation de la recette QA
+# Message au PO : estimation et dates de la recette QA
 
 Version à envoyer, mise à jour le 23/10/2026. Le détail du calcul est dans estimation-recette-sprints-1-a-5.md.
 
 Bonjour [Prénom],
 
-Voici mon estimation de la charge de recette QA pour les sprints 1 à 5 :
+Voici mon planning prévisionnel de recette QA pour les sprints 1 à 5 :
 
-1. Sprints 1 et 2 (8 US) : les 43 cas sont rédigés, l'exécution reste à faire. Environ 5 jours.
-2. Sprint 3 (10 US) : rédaction et exécution à faire. Environ 11 à 12,5 jours.
-3. Sprints 4 et 5 : environ 10,5 à 12,5 jours par sprint, en supposant 10 US par sprint (environ 1,1 jour par US, de la rédaction au bilan).
-4. Préparation (accès, comptes, données) : 1 à 2 jours.
+1. Rédaction des cas du sprint 3 : commencée cette semaine, fin prévue le 30/10.
+2. Exécution des sprints 1, 2 et 3 (environ 100 cas, retests compris) : du 02/11 au 17 à 20/11.
+3. Sprint 4 (rédaction et exécution) : fin prévue entre le 02/12 et le 09/12.
+4. Sprint 5 (rédaction et exécution) : fin prévue entre le 17/12 et le 29/12.
 
-Total : 38 à 45 jours. Ces chiffres incluent les retests après correction des anomalies.
+Ces dates reposent sur trois conditions :
+1. J'ai accès à la préprod et à des comptes de test par rôle (User, Admin, Super Admin) au plus tard le 02/11. Chaque jour de retard décale d'autant toutes les dates suivantes.
+2. Les sprints 4 et 5 comptent environ 10 US chacun. Peux-tu me confirmer leur nombre ?
+3. Je consacre l'essentiel de mon temps à la recette.
 
-Point bloquant : je n'ai pas encore accès à la préprod ni de comptes de test par rôle (User, Admin, Super Admin). Je peux avancer la rédaction des cas du sprint 3, mais pas l'exécution. Chaque jour sans accès décale d'autant la fin de la recette.
+Si ces dates ne conviennent pas, peux-tu m'indiquer les US ou les parcours prioritaires ? Je les exécuterai en premier.
 
-Deux questions pour affiner :
-1. Combien d'US sont prévues aux sprints 4 et 5 ?
-2. Si nous devons arbitrer, quelles US ou quels parcours sont prioritaires pour toi ?
-
-Je réajusterai l'estimation après les dix premiers cas exécutés, avec mon rythme réel.
+Je réajusterai le planning après les dix premiers cas exécutés, avec mon rythme réel.
