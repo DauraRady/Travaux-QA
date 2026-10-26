@@ -10,7 +10,7 @@ Profils : « utilisateur habilité à consulter ou gérer un mandat ». Admin et
 # language: fr
 Fonctionnalité: Lire le titre, le sous-titre et l'affectation du mandat
 
-  Plan du scénario: TIT-01 Le titre du mandat est affiché
+  Plan du scénario: TIT-01 Ouvrir la Description du mandat : le titre du mandat est affiché
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-TEST-07" a pour titre "Titre test Alpha"
     Et que le formulaire de la demande "DEM-TEST-07" est ouvert depuis la "Liste des demandes"
@@ -22,7 +22,7 @@ Fonctionnalité: Lire le titre, le sous-titre et l'affectation du mandat
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: TIT-02 Le sous-titre du mandat est affiché
+  Plan du scénario: TIT-02 Ouvrir la Description du mandat : le sous-titre du mandat est affiché
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-TEST-07" a pour sous-titre "Sous-titre test Alpha"
     Et que le formulaire de la demande "DEM-TEST-07" est ouvert depuis la "Liste des demandes"
@@ -34,7 +34,7 @@ Fonctionnalité: Lire le titre, le sous-titre et l'affectation du mandat
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: TIT-03 Affecté à reprend le nom saisi à la création
+  Plan du scénario: TIT-03 Ouvrir la Description du mandat : Affecté à affiche la personne saisie à la création
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-TEST-07" a été créée avec "Collaborateur Test 01" dans le champ "Affectée à"
     Et que le formulaire de la demande "DEM-TEST-07" est ouvert depuis la "Liste des demandes"
@@ -46,7 +46,7 @@ Fonctionnalité: Lire le titre, le sous-titre et l'affectation du mandat
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: TIT-04 Une nouvelle affectation est visible après rechargement
+  Plan du scénario: TIT-04 Réaffecter puis recharger la demande : Affecté à affiche la nouvelle personne
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-TEST-07" a été réaffectée de "Collaborateur Test 01" à "Collaborateur Test 02"
     Et que le formulaire de la demande "DEM-TEST-07" est ouvert sur la section "Description du mandat"

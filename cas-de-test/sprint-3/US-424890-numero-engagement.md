@@ -12,7 +12,7 @@ Piège de données : la création est refusée si l'entité a déjà une demande
 # language: fr
 Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une demande
 
-  Plan du scénario: ENG-01 Une demande se crée sans numéro d'engagement
+  Plan du scénario: ENG-01 Créer une demande sans numéro d'engagement : la demande est créée sans engagement
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
     Et que j'ai renseigné tous les champs pour la Nature du mandat "Nouveau" et l'Entité ID "<entite>"
@@ -26,7 +26,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin         | AD-TEST-01 | Admin      | ENT-ENG-01 |
       | rôle SuperAdmin    | SA-TEST-01 | SuperAdmin | ENT-ENG-02 |
 
-  Plan du scénario: ENG-02 Vider un numéro en erreur fait disparaître l'erreur
+  Plan du scénario: ENG-02 Vider un numéro d'engagement en erreur : l'erreur disparaît
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
     Et que j'ai renseigné tous les champs pour la Nature du mandat "Nouveau" et l'Entité ID "ENT-ENG-10"
@@ -40,7 +40,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: ENG-03 Les suggestions affichent le numéro et la description
+  Plan du scénario: ENG-03 Saisir le début d'un numéro : les suggestions affichent le numéro et la description
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
     Et que l'engagement "1021001" de description "Mission test Alpha" existe dans le Référentiel Finance
@@ -54,7 +54,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: ENG-04 Aucun engagement ne correspond à la saisie
+  Plan du scénario: ENG-04 Saisir un numéro sans correspondance : « Aucun résultat » et aucune suggestion sélectionnable
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
     Et qu'aucun engagement du Référentiel Finance ne commence par "8888"
@@ -67,7 +67,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: ENG-05 Le champ Numéro d'engagement n'accepte que des chiffres
+  Plan du scénario: ENG-05 Saisir des lettres ou un espace : le champ ne garde que des chiffres
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
     Quand je saisis "<saisie>" dans le champ "Numéro d'engagement"
@@ -80,7 +80,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | SuperAdmin, lettres et tiret | SA-TEST-01 | SuperAdmin | ENG-12 |
       | SuperAdmin, espace          | SA-TEST-01 | SuperAdmin | 10 21  |
 
-  Plan du scénario: ENG-17 Un engagement existant, libre et compatible est enregistré sur la demande
+  Plan du scénario: ENG-06 Créer avec un engagement valide : l'engagement est enregistré sur la demande
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que l'engagement "<engagement>" existe dans le Référentiel Finance, rattaché à l'entité "<entite>" et associé à aucune demande
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
@@ -95,7 +95,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      | ENT-ENG-03 | 1021001    |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin | ENT-ENG-04 | 1021011    |
 
-  Plan du scénario: ENG-06 Les zéros en tête du numéro sont conservés
+  Plan du scénario: ENG-07 Créer avec un engagement à zéros en tête : les zéros sont conservés
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que l'engagement "<engagement>" existe dans le Référentiel Finance, rattaché à l'entité "<entite>" et associé à aucune demande
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
@@ -109,7 +109,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      | ENT-ENG-05 | 0001234    |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin | ENT-ENG-06 | 0001235    |
 
-  Plan du scénario: ENG-18 Choisir un engagement valide corrige un numéro en erreur
+  Plan du scénario: ENG-08 Choisir une suggestion après un numéro en erreur : l'erreur disparaît
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que l'engagement "1021006" existe dans le Référentiel Finance, rattaché à l'entité "ENT-ENG-10" et associé à aucune demande
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
@@ -124,7 +124,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: ENG-07 Un numéro absent du référentiel bloque la création
+  Plan du scénario: ENG-09 Créer avec un numéro absent du Référentiel Finance : création bloquée, « Numéro inconnu. »
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le numéro "9999999" n'existe pas dans le Référentiel Finance
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
@@ -140,7 +140,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: ENG-08 Le serveur refuse un engagement invalide envoyé sans passer par l'écran
+  Plan du scénario: ENG-10 Créer par l'API avec un engagement inconnu ou d'une autre entité : refus du serveur
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que l'engagement "<engagement>" est <situation>
     Quand j'envoie directement à l'API la création d'une demande pour l'entité "ENT-ENG-10" avec l'engagement "<engagement>"
@@ -154,7 +154,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | SuperAdmin, numéro inconnu    | SA-TEST-01 | SuperAdmin | 9999999    | absent du Référentiel Finance                      |
       | SuperAdmin, autre entité      | SA-TEST-01 | SuperAdmin | 1021003    | rattaché à l'entité ENT-ENG-11 et associé à aucune demande |
 
-  Plan du scénario: ENG-10 Un engagement déjà associé à une autre demande bloque la création
+  Plan du scénario: ENG-11 Créer avec un engagement déjà associé : création bloquée, « Numéro déjà existant. »
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-TEST-01" de l'entité "ENT-ENG-12" est au statut "Validé" avec l'engagement "1021002"
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
@@ -170,7 +170,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: ENG-09 Le serveur refuse un engagement déjà associé envoyé sans passer par l'écran
+  Plan du scénario: ENG-12 Créer par l'API avec un engagement déjà associé : refus du serveur
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-TEST-01" de l'entité "ENT-ENG-12" est au statut "Validé" avec l'engagement "1021002"
     Quand j'envoie directement à l'API la création d'une demande de renouvellement pour l'entité "ENT-ENG-12" avec l'engagement "1021002"
@@ -182,7 +182,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: ENG-11 Deux créations simultanées avec le même engagement
+  Plan du scénario: ENG-13 Envoyer deux créations simultanées avec le même engagement : une seule demande est créée
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que l'engagement "<engagement>" existe dans le Référentiel Finance, rattaché à l'entité "<entite>" et associé à aucune demande
     Quand j'envoie en même temps à l'API deux créations d'une demande pour l'entité "<entite>" avec l'engagement "<engagement>"
@@ -194,7 +194,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      | ENT-ENG-07 | 1021004    |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin | ENT-ENG-08 | 1021014    |
 
-  Plan du scénario: ENG-12 Un engagement rattaché à une autre entité bloque la création
+  Plan du scénario: ENG-14 Créer avec un engagement d'une autre entité : création bloquée, « Numéro incompatible. »
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que l'engagement "1021003" existe dans le Référentiel Finance, rattaché à l'entité "ENT-ENG-11" et associé à aucune demande
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
@@ -210,7 +210,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: ENG-15 Référentiel Finance indisponible pendant la recherche
+  Plan du scénario: ENG-15 Référentiel Finance indisponible pendant la saisie : message d'erreur et aucune suggestion
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
     Et que le Référentiel Finance est rendu indisponible par l'équipe de développement
@@ -223,7 +223,7 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: ENG-16 Référentiel Finance indisponible au moment de la création
+  Plan du scénario: ENG-16 Référentiel Finance indisponible à la validation : création bloquée
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
     Et que j'ai renseigné tous les champs pour la Nature du mandat "Nouveau" et l'Entité ID "ENT-ENG-10"
@@ -244,19 +244,19 @@ Fonctionnalité: Renseigner un numéro d'engagement lors de la création d'une d
 | Critère de l'US | Scénarios | Couvert ? |
 |---|---|---|
 | Champ facultatif (scénario 1) | ENG-01 | Couvert |
-| Saisie numérique, zéros conservés (scénario 2) | ENG-05, ENG-06 | Couvert |
+| Saisie numérique, zéros conservés (scénario 2) | ENG-05, ENG-07 | Couvert |
 | Suggestions (scénario 3) | ENG-03 | Couvert |
 | Aucun résultat (scénario 4) | ENG-04 | Couvert |
-| Numéro absent du référentiel (scénario 5) | ENG-07, ENG-08 | Couvert |
-| Numéro existant et disponible (scénario 6) | ENG-17 | Couvert |
-| Numéro déjà associé (scénario 7) | ENG-09, ENG-10 | Couvert ; texte du message à confirmer (Q-13) |
-| Numéro incompatible avec l'entité (scénario 8) | ENG-08, ENG-12 | Partiel : propriété de rattachement inconnue (Q-14) |
-| Correction d'un numéro en erreur (scénario 9) | ENG-18 | Couvert |
+| Numéro absent du référentiel (scénario 5) | ENG-09, ENG-10 | Couvert |
+| Numéro existant et disponible (scénario 6) | ENG-06 | Couvert |
+| Numéro déjà associé (scénario 7) | ENG-11, ENG-12 | Couvert ; texte du message à confirmer (Q-13) |
+| Numéro incompatible avec l'entité (scénario 8) | ENG-10, ENG-14 | Partiel : propriété de rattachement inconnue (Q-14) |
+| Correction d'un numéro en erreur (scénario 9) | ENG-08 | Couvert |
 | Suppression d'un numéro en erreur (scénario 10) | ENG-02, ENG-01 | Couvert |
 | Référentiel indisponible, recherche (scénario 11) | ENG-15 | Partiel : texte « proposé » (Q-15) |
 | Référentiel indisponible, création (scénario 12) | ENG-16 | Partiel : contenu du ProblemDetails (Q-12) |
-| Double soumission (scénario 13) | ENG-11 | Couvert |
-| Contrôle front et back | ENG-08, ENG-09 | Couvert |
+| Double soumission (scénario 13) | ENG-13 | Couvert |
+| Contrôle front et back | ENG-10, ENG-12 | Couvert |
 
 ## 3. Non rédigé
 

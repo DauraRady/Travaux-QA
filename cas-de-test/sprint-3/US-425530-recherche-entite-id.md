@@ -12,7 +12,7 @@ Données dédiées ENT-RECH et DEM-RECH : les autres fichiers créent des demand
 # language: fr
 Fonctionnalité: Rechercher mes demandes via le numéro Entité ID
 
-  Plan du scénario: RECH-01 La recherche par Entité ID filtre la liste
+  Plan du scénario: RECH-01 Rechercher une Entité ID : seules les demandes de cette entité sont affichées
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que les demandes "DEM-RECH-01" et "DEM-RECH-02" de l'entité "ENT-RECH-01" et la demande "DEM-RECH-03" de l'entité "ENT-RECH-02" existent
     Et que je suis sur la "Liste des demandes"
@@ -25,7 +25,7 @@ Fonctionnalité: Rechercher mes demandes via le numéro Entité ID
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: RECH-02 La recherche se combine avec un autre filtre
+  Plan du scénario: RECH-02 Combiner la recherche et le filtre Millésime : seules les demandes qui répondent aux deux restent
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-RECH-01" au millésime 2027 et la demande "DEM-RECH-02" au millésime 2026 de l'entité "ENT-RECH-01" existent
     Et que je suis sur la "Liste des demandes" avec "ENT-RECH-01" saisi dans le champ "Rechercher par Entité ID"
@@ -38,7 +38,7 @@ Fonctionnalité: Rechercher mes demandes via le numéro Entité ID
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: RECH-03 Vider la recherche rétablit la liste
+  Plan du scénario: RECH-03 Vider la recherche : toutes les demandes réapparaissent
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que les demandes "DEM-RECH-01" et "DEM-RECH-02" de l'entité "ENT-RECH-01" et la demande "DEM-RECH-03" de l'entité "ENT-RECH-02" existent
     Et que je suis sur la "Liste des demandes" avec "ENT-RECH-01" saisi dans le champ "Rechercher par Entité ID"
@@ -65,4 +65,3 @@ Fonctionnalité: Rechercher mes demandes via le numéro Entité ID
 
 1. Saisie partielle (« ENT-RECH »), fin d'identifiant (« RECH-01 »), minuscules (« ent-rech-01 ») et recherche sans résultat (Q-32).
 2. Profil Utilisateur face aux demandes non validées, à vérifier aussi par l'API (Q5).
-3. Admin Maroc qui recherche une entité France : la liste est-elle filtrée par périmètre pays (Q-33) ?

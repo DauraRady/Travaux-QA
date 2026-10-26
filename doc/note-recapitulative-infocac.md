@@ -4,7 +4,9 @@ Mise à jour le 26/10/2026, après la conception des cas du sprint 3. Ce documen
 
 ## 1. Le projet en une page
 
-InfoCAC tient la liste officielle des mandats de commissariat aux comptes (CAC) de KPMG pour la France, le Maghreb et l'Afrique francophone, et la transmet aux autres applications. Il remplace la partie mandats d'IBS, un CRM arrêté en avril 2027. La mise en production est prévue en mars 2027, en une seule version, sans évolution prévue après le go-live (information orale du PM).
+InfoCAC tient la liste officielle des mandats de commissariat aux comptes (CAC) de KPMG pour la France, le Maghreb et l'Afrique francophone, et la transmet aux autres applications. Il remplace la partie mandats d'IBS, un CRM arrêté en avril 2027.
+
+Périmètre testé aujourd'hui : France uniquement, et mandats de Certification des comptes uniquement. La Durabilité, le type mixte et les autres pays décrits dans le PRD et dans certaines US sont hors périmètre ; aucun cas ne les teste. La mise en production est prévue en mars 2027, en une seule version, sans évolution prévue après le go-live (information orale du PM).
 
 Un mandat CAC, c'est KPMG nommé commissaire aux comptes d'une entreprise cliente (l'entité) pour plusieurs exercices (mandat de 3 ou 6 ans). Dans InfoCAC, tout mandat commence par une demande, que le back-office (BSC) remplit, contrôle et fait valider. Seule une donnée validée est envoyée aux autres applications : c'est le principe de « source unique de vérité ».
 
@@ -18,11 +20,11 @@ Pourquoi la qualité compte ici : les données de mandats alimentent des déclar
 | Demande | Le dossier qui deviendra un mandat une fois validé | PRD |
 | Nature du mandat | Nouveau ou Renouvellement, choisi à la création ; « Reprise » est alors un champ Oui ou Non | Cas de création de ce dépôt |
 | Catégorie du mandat | Nouveau, Reprise ou Renouvellement, dans la section Description du mandat | US 426402 |
-| Type de mandat | Certification des comptes (audit légal), Durabilité, ou les deux ; imposé à Certification hors France | US 426402 |
+| Type de mandat | Certification des comptes (audit légal) dans le périmètre testé ; l'US décrit aussi Durabilité et un type mixte, hors périmètre | US 426402 |
 | Millésime | L'exercice fiscal concerné ; l'année fiscale va d'octobre à septembre | US, PRD |
 | Numéro d'engagement | Le code de la mission dans le Référentiel Finance (engagementCode) | US 424890 |
 | Requête BSC | Le numéro de ticket du back-office ; plusieurs PV peuvent partager le même | US Contrôles |
-| Indicateurs DA | Deux Oui/Non qui disent si le mandat compte en Certification ou en Durabilité pour la Déclaration d'Activités | US 426235 |
+| Indicateurs DA | Deux Oui/Non pour la Déclaration d'Activités ; pour un mandat de Certification des comptes : Certification à Oui, Durabilité à Non | US 426235 |
 | Taxonomie | Code de classement du mandat, par exemple AA11 CAC Nouveau, AA12 CAC Maintien | US 426973 |
 | EIP | Entité d'intérêt public (sociétés cotées, banques, assureurs, mutuelles), soumise à des règles plus strictes | US 426406 |
 | OPC | Organisme de placement collectif (un fonds) | US 426406 |
@@ -74,7 +76,7 @@ Au 23/10/2026, l'exécution est bloquée : pas d'accès à la préprod, pas de c
 | Sprint | Contenu | Cas dans ce dépôt |
 |---|---|---|
 | 1 et 2 | Side panel Discovery, groupes de sécurité, création d'une demande, liste, filtres | `cas-de-test/*.md` (43 cas) |
-| 3 | Numéro d'engagement et contrôles à la création, recherche par Entité ID, en-tête du formulaire, section Description du mandat (pays, type, catégorie, indicateurs DA, taxonomie, qualification EIP, marchés de cotation) | `cas-de-test/sprint-3/` (58 scénarios, 133 exécutions) |
+| 3 | Numéro d'engagement et contrôles à la création, recherche par Entité ID, en-tête du formulaire, section Description du mandat (pays, type, catégorie, indicateurs DA, taxonomie, qualification EIP, marchés de cotation) | `cas-de-test/sprint-3/` (51 scénarios, 113 exécutions) |
 
 Ce qui n'a pas encore de sprint et porte pourtant le plus de risque : la reprise des 15 000 mandats IBS, le cycle de vie des statuts, la porte de validation, le journal d'activité, les flux sortants, le multi-millésime.
 
@@ -84,9 +86,8 @@ Le sprint 3 livre surtout des champs qui en commandent d'autres. Les anomalies s
 
 | Champ saisi | Ce qu'il commande | Règle |
 |---|---|---|
-| Pays | Type de mandat | Hors France : Certification des comptes imposée, champ désactivé |
-| Type de mandat | Indicateurs DA | Certification : Oui et Non ; Durabilité : Non et Oui ; mixte : Oui et Oui ; recalcul immédiat |
-| Pays, Type, Catégorie | Taxonomie | France et Certification : Nouveau ou Reprise donne AA11, Renouvellement donne AA12 ; recalcul à chaque changement |
+| Type de mandat | Indicateurs DA | Certification des comptes : Certification à Oui, Durabilité à Non ; non modifiables |
+| Catégorie du mandat | Taxonomie | Nouveau ou Reprise donne AA11, Renouvellement donne AA12 ; recalcul à chaque changement ; non modifiable |
 | Catégorie d'entité | AGP et Type d'EIP | EIP : AGP forcé à Non, Type d'EIP obligatoire et multiple ; Non-EIP ou OPC : Type d'EIP à N/A |
 | Marché de cotation 1 | Marchés 2 et 3 | Non coté : les deux autres à Non coté et verrouillés ; sinon un marché réel une seule fois |
 | Entité ID | Numéro d'engagement | L'engagement doit être rattaché à l'entité |
@@ -96,7 +97,7 @@ Chaque flèche se teste dans les deux sens : poser la valeur, puis la changer et
 ## 8. Avant d'exécuter
 
 1. Obtiens les comptes Admin et SuperAdmin (et User pour plus tard), et vérifie leur rôle dans Paramètres avant la première campagne. Un compte avec deux rôles fausse tous les résultats de droits.
-2. Demande aux développeurs ce qu'ils peuvent injecter : une demande au statut « Validé » (HEAD-04, ENG-09, ENG-10), un Référentiel Finance indisponible (ENG-15, ENG-16), des engagements de test rattachés à des entités connues.
+2. Demande aux développeurs ce qu'ils peuvent injecter : une demande au statut « Validé » (HEAD-04, ENG-11, ENG-12), un Référentiel Finance indisponible (ENG-15, ENG-16), des engagements de test rattachés à des entités connues.
 3. Relève la liste réelle des engagements et des entités de préprod, et fais la correspondance avec les identifiants fictifs du README du sprint 3.
 4. Crée dans Azure Test Plans les étapes partagées (Se connecter, Ouvrir la création, Ouvrir la liste) et le paramètre partagé « Profils habilités ».
 5. Vérifie la version déployée en préprod (release note) : une US « To be tested » n'est pas forcément livrée sur l'environnement que tu testes.
@@ -134,21 +135,19 @@ Chaque flèche se teste dans les deux sens : poser la valeur, puis la changer et
 
 ### Thème 3 : la cascade du formulaire
 
-1. Allers-retours : France vers Maroc puis retour ; EIP vers OPC puis EIP ; Non coté vers Euronext puis Non coté. Vérifie à chaque fois les champs dépendants.
-2. Valeur imposée qui écrase une valeur saisie : AGP à Oui puis passage en EIP ; Type Durabilité puis passage au Maroc.
+1. Allers-retours : Nouveau vers Renouvellement puis retour ; EIP vers OPC puis EIP ; Non coté vers Euronext puis Non coté. Vérifie à chaque fois les champs dépendants.
+2. Valeur imposée qui écrase une valeur saisie : AGP à Oui puis passage en EIP.
 3. Valeur héritée qui doit disparaître : « Non coté » des marchés 2 et 3 quand le marché 1 devient réel ; types d'EIP quand on quitte EIP.
 4. Rien ne doit revenir tout seul : en repassant à EIP, aucun ancien type n'est restauré (RG-EIP-08).
 5. Rechargement entre deux changements : l'état affiché après rechargement doit être le dernier saisi.
 6. Champ désactivé à l'écran mais modifiable par l'API : à vérifier quand la sauvegarde existera.
-7. Incohérences métier que personne n'interdit encore : une EIP « titres admis sur un marché réglementé de l'UE » avec le marché 1 à « Non coté » (Q-31) ; une entité hors France en Durabilité.
+7. Incohérences métier que personne n'interdit encore : une EIP « titres admis sur un marché réglementé de l'UE » avec le marché 1 à « Non coté » (Q-31).
 
 ### Thème 4 : les droits
 
-1. Admin France qui change le Pays d'un mandat vers le Maroc : son périmètre le permet-il ?
-2. Admin Maroc qui recherche une entité France (Q-33).
-3. User face aux demandes non validées, à l'écran et par l'API (Q5).
-4. Rôle retiré dans SailPoint pendant une session ouverte.
-5. Session expirée au milieu d'une saisie : la saisie est-elle perdue, la demande créée en double au retour ?
+1. User face aux demandes non validées, à l'écran et par l'API (Q5).
+2. Rôle retiré dans SailPoint pendant une session ouverte.
+3. Session expirée au milieu d'une saisie : la saisie est-elle perdue, la demande créée en double au retour ?
 
 ### Thème 5 : la recherche et la liste
 
@@ -176,13 +175,13 @@ Chaque flèche se teste dans les deux sens : poser la valeur, puis la changer et
 | Q5 | Le User voit les demandes non validées | 425530, liste, contre PRD | Confidentialité |
 | Q6 | L'Admin modifie une demande validée | S1-03 contre PRD | Intégrité des données envoyées |
 | Q-26 | Indicateurs DA enregistrés ou non | 426235 contre lui-même | Flux vers DA |
-| Q-39 | Audit contractuel est-il un type de mandat ? | Filtre de la liste contre 426402 | Formulaire, taxonomie |
+| Q-40 | Que proposent les listes Pays et Type de mandat ? | 426402 (18 pays, 3 types) contre le périmètre France et Certification | Formulaire, filtres de la liste |
 
 La liste complète des questions est dans `cas-de-test/sprint-3/README.md`.
 
 ## 12. L'automatisation, plus tard
 
-Rien n'est automatisé au sprint 3 : le formulaire gagne des champs à chaque sprint, et les indicateurs DA et la taxonomie ne sont pas encore enregistrés. Le démarrage est envisagé vers le sprint 6 ou 7, avec Playwright (API et UI), un dépôt GitHub et une CI dans Azure Pipelines. Les meilleurs candidats du sprint 3 sont les contrôles serveur de l'engagement (ENG-08, ENG-09, ENG-11), les droits du User sur la liste (Q5) et les deux tables de décision (indicateurs DA, taxonomie), une fois enregistrées.
+Rien n'est automatisé au sprint 3 : le formulaire gagne des champs à chaque sprint, et les indicateurs DA et la taxonomie ne sont pas encore enregistrés. Le démarrage est envisagé vers le sprint 6 ou 7, avec Playwright (API et UI), un dépôt GitHub et une CI dans Azure Pipelines. Les meilleurs candidats du sprint 3 sont les contrôles serveur de l'engagement (ENG-10, ENG-12, ENG-13), les droits du User sur la liste (Q5) et la table de décision de la taxonomie, une fois enregistrée.
 
 ## 13. Où trouver quoi
 

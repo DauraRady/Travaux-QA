@@ -10,7 +10,7 @@ Profils : « utilisateur habilité à consulter ou compléter un formulaire ». 
 # language: fr
 Fonctionnalité: Visualiser la base d'affichage du formulaire
 
-  Plan du scénario: HEAD-01 L'en-tête affiche le nom de l'entité, l'Entité ID et le statut
+  Plan du scénario: HEAD-01 Ouvrir une demande : l'en-tête affiche le nom de l'entité, l'Entité ID et le statut
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-TEST-02" de l'entité "ENT-HEAD-01", nommée "Société Test Alpha", est au statut "En cours"
     Et que je suis sur la "Liste des demandes"
@@ -24,7 +24,7 @@ Fonctionnalité: Visualiser la base d'affichage du formulaire
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: HEAD-02 En-tête d'une demande dont l'Entité ID est inconnue du référentiel
+  Plan du scénario: HEAD-02 Ouvrir une demande d'entité inconnue du référentiel : l'en-tête affiche l'Entité ID
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-TEST-06" de l'entité "ENT-HEAD-99", absente du référentiel, existe
     Et que je suis sur la "Liste des demandes"
@@ -36,7 +36,7 @@ Fonctionnalité: Visualiser la base d'affichage du formulaire
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: HEAD-03 Retour depuis une demande non validée ramène à la liste des demandes
+  Plan du scénario: HEAD-03 Cliquer sur Retour depuis une demande non validée : retour à la Liste des demandes
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le formulaire de la demande "DEM-TEST-02", au statut "En cours", est ouvert depuis la "Liste des demandes"
     Quand je clique sur "Retour"
@@ -47,13 +47,13 @@ Fonctionnalité: Visualiser la base d'affichage du formulaire
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Scénario: HEAD-04 Retour depuis un formulaire validé ramène à la Gestion d'entité
+  Scénario: HEAD-04 Cliquer sur Retour depuis un formulaire validé : retour à la Gestion d'entité
     Étant donné que je suis connecté avec le compte "SA-TEST-01" ayant le rôle "SuperAdmin"
     Et que le formulaire de la demande "DEM-TEST-04", au statut "Validé", est ouvert en modification depuis la page "Gestion d'entité"
     Quand je clique sur "Retour"
     Alors la page "Gestion d'entité" s'affiche
 
-  Plan du scénario: HEAD-05 Formulaire ouvert par son lien direct, sans page précédente
+  Plan du scénario: HEAD-05 Cliquer sur Retour après un lien direct : retour à la Liste des demandes
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que le formulaire de la demande "DEM-TEST-02" est ouvert par son lien direct dans un nouvel onglet
     Quand je clique sur "Retour"

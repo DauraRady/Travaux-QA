@@ -12,7 +12,7 @@ Prérequis de l'US (étape 0) : Pays, Type de mandat et Catégorie du mandat dé
 # language: fr
 Fonctionnalité: Renseigner l'AGP, la catégorie d'entité et le Type d'EIP
 
-  Plan du scénario: EIP-01 Choisir EIP impose l'AGP à Non et active le Type d'EIP
+  Plan du scénario: EIP-01 Choisir EIP : AGP forcé à Non et Type d'EIP obligatoire
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et qu'une demande vierge est ouverte sur la section "Description du mandat"
     Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
@@ -27,7 +27,7 @@ Fonctionnalité: Renseigner l'AGP, la catégorie d'entité et le Type d'EIP
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: EIP-02 Passer de Non-EIP à EIP écrase un AGP à Oui
+  Plan du scénario: EIP-02 Passer de Non-EIP à EIP : l'AGP à Oui est remplacé par Non
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et qu'une demande vierge est ouverte sur la section "Description du mandat"
     Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
@@ -41,7 +41,7 @@ Fonctionnalité: Renseigner l'AGP, la catégorie d'entité et le Type d'EIP
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: EIP-03 Une EIP peut cumuler plusieurs types
+  Plan du scénario: EIP-03 Choisir deux types d'EIP : les deux sont retenus
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et qu'une demande vierge est ouverte sur la section "Description du mandat"
     Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
@@ -55,7 +55,7 @@ Fonctionnalité: Renseigner l'AGP, la catégorie d'entité et le Type d'EIP
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: EIP-04 La liste des types d'EIP contient les 13 valeurs de l'US
+  Plan du scénario: EIP-04 Ouvrir la liste des types d'EIP : les 13 valeurs de l'US sont proposées
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et qu'une demande vierge est ouverte sur la section "Description du mandat"
     Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
@@ -68,7 +68,7 @@ Fonctionnalité: Renseigner l'AGP, la catégorie d'entité et le Type d'EIP
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: EIP-05 Pour une entité Non-EIP ou OPC, le Type d'EIP vaut N/A
+  Plan du scénario: EIP-05 Choisir Non-EIP ou OPC : Type d'EIP à N/A et verrouillé
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et qu'une demande vierge est ouverte sur la section "Description du mandat"
     Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
@@ -84,7 +84,7 @@ Fonctionnalité: Renseigner l'AGP, la catégorie d'entité et le Type d'EIP
       | SuperAdmin, Non-EIP | SA-TEST-01 | SuperAdmin | Non-EIP   |
       | SuperAdmin, OPC     | SA-TEST-01 | SuperAdmin | OPC       |
 
-  Plan du scénario: EIP-06 Passer d'EIP à Non-EIP efface les types d'EIP
+  Plan du scénario: EIP-06 Passer d'EIP à Non-EIP : les types d'EIP choisis sont effacés
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et qu'une demande vierge est ouverte sur la section "Description du mandat"
     Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
@@ -97,7 +97,7 @@ Fonctionnalité: Renseigner l'AGP, la catégorie d'entité et le Type d'EIP
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: EIP-07 Revenir à EIP ne restaure aucun ancien type
+  Plan du scénario: EIP-07 Revenir à EIP après OPC : aucun ancien type d'EIP n'est restauré
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et qu'une demande vierge est ouverte sur la section "Description du mandat"
     Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"

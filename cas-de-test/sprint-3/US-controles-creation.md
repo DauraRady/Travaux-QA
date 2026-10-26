@@ -14,7 +14,7 @@ Les règles sur le numéro d'engagement sont couvertes par `US-424890-numero-eng
 # language: fr
 Fonctionnalité: Contrôles des informations saisies à la création d'une demande
 
-  Plan du scénario: CTRL-03 L'Entité ID propose les entités connues en autocomplétion
+  Plan du scénario: CTRL-01 Saisir le début d'une Entité ID : les entités connues sont proposées
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que l'entité "ENT-CTRL-01" existe dans le référentiel
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
@@ -26,7 +26,7 @@ Fonctionnalité: Contrôles des informations saisies à la création d'une deman
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 
-  Plan du scénario: CTRL-04 La requête BSC ne bloque jamais la création
+  Plan du scénario: CTRL-02 Créer avec une requête BSC déjà utilisée ou nouvelle : la création n'est pas bloquée
     Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
     Et que la demande "DEM-TEST-01" porte la requête BSC "BSC-TEST-01"
     Et que le formulaire de création est ouvert depuis la "Liste des demandes"
@@ -48,10 +48,10 @@ Fonctionnalité: Contrôles des informations saisies à la création d'une deman
 | Règle de l'US | Scénarios | Couvert ? |
 |---|---|---|
 | Entité ID obligatoire | TC05 de `creer-une-demande.md` | Couvert ailleurs |
-| Entité ID en autocomplétion | CTRL-03 | Couvert |
+| Entité ID en autocomplétion | CTRL-01 | Couvert |
 | Entité ID inconnue non bloquante | | Non couvert : contradiction avec TC06 (Q-19) |
 | Entité ID sans contrôle d'unicité | | Non couvert : contradiction avec TC07 (Q-19) |
-| Requête BSC libre, sans unicité | CTRL-04 | Couvert |
+| Requête BSC libre, sans unicité | CTRL-02 | Couvert |
 | Requête BSC facultative | | Non couvert : TC05 traite N° Requête BSC comme obligatoire (Q-19) |
 | Numéro d'engagement | Fichier 424890 | Couvert ailleurs ; texte du message en conflit (Q-13) |
 
