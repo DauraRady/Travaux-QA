@@ -19,7 +19,7 @@ Ce que je propose :
 4. Des scénarios en Gherkin français, avec le rôle connecté, l'écran, les données, une action et un résultat exact par ligne.
 5. Aucune écriture dans Azure DevOps sans aperçu et accord explicite, contrôlé aussi par un script. Il est aussi possible de produire un CSV à importer dans Test Plans.
 
-Où on en est : j'ai lancé le nouvel agent dans Claude Code sur l'US 417829, avec le même modèle que l'agent actuel (Claude Sonnet 5.5). Résultat : 22 cas exécutables, aucune erreur au contrôle automatique, les 5 situations de la règle de validation couvertes, et 12 questions au PO, dont 6 bloquantes (notamment entité ID inconnue, section 3, et documents obligatoires, section 4). Limite : l'agent a lu l'US dans un fichier exporté, sans les commentaires ni les maquettes, et n'a pas encore tourné sur notre Azure DevOps.
+Où on en est : j'ai lancé le nouvel agent dans Claude Code sur l'US 417829, avec le même modèle que l'agent actuel (Claude Sonnet 5.5). Au dernier lancement (27/10) : 25 cas exécutables, aucune erreur au contrôle automatique, les 5 situations de la règle de validation couvertes dans les deux natures de mandat, et 14 questions au PO, dont 4 bloquantes (notamment entité ID inconnue, section 3, et documents obligatoires, section 4). L'agent produit aussi le tableau pour Azure DevOps et propose ce qu'il faut ajouter au contexte du projet, sans rien écrire sans accord. Limite : l'agent a lu l'US dans un fichier exporté, sans les commentaires ni les maquettes, et n'a pas encore tourné sur notre Azure DevOps.
 
 Pour avancer, j'aurais besoin de :
 

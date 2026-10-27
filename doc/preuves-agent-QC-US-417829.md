@@ -60,7 +60,7 @@ US §3 Parcours 2, Entité ID :
 
 | Chiffre | Où le vérifier |
 |---|---|
-| 22 cas exécutables, 14 scénarios, 0 erreur au contrôle | `resultat-agent-US-417829.md`, contrôlé par `build_tc.py check` puis `csv` |
+| 25 cas exécutables, 14 scénarios, 0 erreur au contrôle (lancement du 27/10) | `resultat-agent-US-417829-27-10.md`, contrôlé par `build_tc.py check` puis `csv` ; tableau dans `resultat-agent-US-417829-27-10-ado.md` |
 | 5 situations de la règle de validation couvertes | Même rapport, fonctionnalité « Valider la création d'une demande » |
-| 12 questions au PO, dont 6 bloquantes | Même rapport, section 4 |
+| 14 questions au PO, dont 4 bloquantes | Même rapport, section 4 |
 | Premier passage trop prudent (2 situations sur 5), consigne corrigée puis agent relancé | Skill `us-analysis`, règle sur les détails manquants |

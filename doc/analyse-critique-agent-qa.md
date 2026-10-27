@@ -13,7 +13,7 @@ Date : 20/10/2026. Porte sur l'agent au format Claude Code (`notes-lecture/`), s
 
 | # | Faiblesse | Pourquoi c'est un problème | Correction proposée |
 |---|---|---|---|
-| 1 | L'agent n'a tourné que sur un export de l'US | Lancé dans Claude Code sur l'US 417829 (22 cas, 0 erreur), mais sans Azure DevOps, sans commentaires ni maquettes, avec un contexte presque vide | Le relancer dans le dépôt de l'équipe, avec l'accès Azure DevOps |
+| 1 | L'agent n'a tourné que sur un export de l'US | Lancé dans Claude Code sur l'US 417829 (25 cas au 27/10, 0 erreur), mais sans Azure DevOps, sans commentaires ni maquettes, avec un contexte presque vide | Le relancer dans le dépôt de l'équipe, avec l'accès Azure DevOps |
 | 2 | Le dépôt est public | Les présentations de `doc/` nomment le projet et critiquent un outil interne | Passer le dépôt en privé, ou retirer `doc/` |
 | 3 | Personne ne tient le contexte après la fin de la mission | Un contexte non tenu devient faux, et un agent qui lit un contexte faux fait pire que pas d'agent | Nommer un responsable avant le déploiement |
 | 4 | La mesure n'est pas outillée | Les 3 US de référence et la cible « zéro cas inventé » ne sont écrites que dans une diapo | Une grille : règles inventées, questions pertinentes, cas acceptés sans retouche, temps passé |
