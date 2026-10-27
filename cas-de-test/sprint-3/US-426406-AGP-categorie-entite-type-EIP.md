@@ -110,6 +110,56 @@ Fonctionnalité: Renseigner l'AGP, la catégorie d'entité et le Type d'EIP
       | cas             | compte     | role       |
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
+
+  Plan du scénario: EIP-08 Recharger après le passage d'EIP à Non-EIP : les types d'EIP effacés ne reviennent pas
+    Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
+    Et qu'une demande vierge est ouverte sur la section "Description du mandat"
+    Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
+    Et que j'ai sélectionné la Catégorie d'entité "EIP" et les Types d'EIP "Établissement de crédit" et "OPCVM coté sur un marché réglementé", puis la Catégorie d'entité "Non-EIP"
+    Quand je recharge la page de la demande
+    Alors le champ "Catégorie d'entité" affiche "Non-EIP"
+    Et le champ "Type d'EIP" affiche uniquement "N/A"
+
+    Exemples:
+      | cas             | compte     | role       |
+      | rôle Admin      | AD-TEST-01 | Admin      |
+      | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
+
+  Plan du scénario: EIP-09 Recharger une demande EIP : l'AGP reste à Non et non modifiable
+    Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
+    Et qu'une demande vierge est ouverte sur la section "Description du mandat"
+    Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
+    Et que j'ai sélectionné la Catégorie d'entité "Non-EIP" et l'AGP "Oui", puis la Catégorie d'entité "EIP" et le Type d'EIP "Établissement de crédit"
+    Quand je recharge la page de la demande
+    Alors le champ "AGP" affiche "Non"
+    Et le champ "AGP" n'est pas modifiable
+
+    Exemples:
+      | cas             | compte     | role       |
+      | rôle Admin      | AD-TEST-01 | Admin      |
+      | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
+
+  Plan du scénario: EIP-10 Enregistrer par l'API une entité EIP avec l'AGP à Oui : la combinaison n'est pas enregistrée
+    Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
+    Et qu'une demande vierge existe avec le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
+    Quand j'envoie directement à l'API l'enregistrement de cette demande avec la Catégorie d'entité "EIP", le Type d'EIP "Établissement de crédit" et l'AGP "Oui"
+    Alors la demande relue par l'API n'a pas à la fois la Catégorie d'entité "EIP" et l'AGP "Oui"
+
+    Exemples:
+      | cas             | compte     | role       |
+      | rôle Admin      | AD-TEST-01 | Admin      |
+      | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
+
+  Plan du scénario: EIP-11 Enregistrer par l'API une entité Non-EIP avec un Type d'EIP : le type n'est pas enregistré
+    Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
+    Et qu'une demande vierge existe avec le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
+    Quand j'envoie directement à l'API l'enregistrement de cette demande avec la Catégorie d'entité "Non-EIP" et le Type d'EIP "Établissement de crédit"
+    Alors la demande relue par l'API n'a pas le Type d'EIP "Établissement de crédit"
+
+    Exemples:
+      | cas             | compte     | role       |
+      | rôle Admin      | AD-TEST-01 | Admin      |
+      | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 ```
 
 ## 2. Couverture
@@ -119,11 +169,13 @@ Fonctionnalité: Renseigner l'AGP, la catégorie d'entité et le Type d'EIP
 | RG-EIP-01 AGP obligatoire | | Non couvert : moment et forme du contrôle inconnus (Q-21) |
 | RG-EIP-02 Catégorie d'entité obligatoire | | Non couvert : même raison (Q-21) |
 | RG-EIP-03 | | Absente de la numérotation (Q-28) |
-| RG-EIP-04 EIP : AGP à Non, Type d'EIP obligatoire | EIP-01, EIP-02 | Partiel : sortie d'EIP non décrite (Q-27) |
+| RG-EIP-04 EIP : AGP à Non, Type d'EIP obligatoire | EIP-01, EIP-02, EIP-09, EIP-10 | Partiel : sortie d'EIP non décrite (Q-27) |
 | RG-EIP-05 Multisélection | EIP-03, EIP-04 | Couvert |
-| RG-EIP-06 Non-EIP ou OPC : N/A non modifiable | EIP-05 | Couvert |
-| RG-EIP-07 EIP vers Non-EIP ou OPC : types effacés | EIP-06 | Couvert |
+| RG-EIP-06 Non-EIP ou OPC : N/A non modifiable | EIP-05, EIP-11 | Couvert |
+| RG-EIP-07 EIP vers Non-EIP ou OPC : types effacés | EIP-06, EIP-08 | Couvert, à l'écran et après rechargement |
 | RG-EIP-08 Retour à EIP : rien de restauré | EIP-07 | Couvert |
+
+EIP-10 et EIP-11 vérifient que le serveur applique les règles même quand l'écran est contourné. Le résultat attendu porte sur la donnée enregistrée, pas sur la réponse : le serveur peut refuser l'envoi ou corriger la valeur, les deux respectent la règle (Q-41). EIP-08 et EIP-09 supposent, comme MC-05, que la saisie est enregistrée sans bouton dédié ; sinon, enregistre avant de recharger.
 
 ## 3. Non rédigé
 

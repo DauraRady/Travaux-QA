@@ -1,20 +1,20 @@
 # Cas de test du sprint 3 InfoCAC
 
-Rédigés le 26/10/2026, recentrés le même jour sur la France et la Certification des comptes, avec le skill `skills/gherkin-test-generation`, contrôlés par son script (`build_tc.py check` : 0 erreur, 0 avertissement sur chaque fichier). Données fictives uniquement. La note qui explique le projet, l'exécution et les pièges est dans `doc/note-recapitulative-infocac.md`.
+Rédigés le 26/10/2026, recentrés le même jour sur la France et la Certification des comptes, complétés le 27/10/2026 par 14 cas d'erreur et de refus, avec le skill `skills/gherkin-test-generation`, contrôlés par son script (`build_tc.py check` : 0 erreur, 0 avertissement sur chaque fichier). Données fictives uniquement. La note qui explique le projet, l'exécution et les pièges est dans `doc/note-recapitulative-infocac.md`.
 
 | Fichier | US | Scénarios | Exécutions (une par profil et par ligne) |
 |---|---|---|---|
 | `US-424890-numero-engagement.md` | 424890 Numéro d'engagement à la création | 16 | 36 |
 | `US-controles-creation.md` | Contrôles à la création (identifiant non visible) | 2 | 6 |
-| `US-426402-caracteristiques-mandat.md` | 426402 Pays, Type et Catégorie du mandat | 3 | 6 |
+| `US-426402-caracteristiques-mandat.md` | 426402 Pays, Type et Catégorie du mandat, droits du User | 5 | 8 |
 | `US-426235-indicateurs-DA.md` | 426235 Indicateurs DA | 2 | 4 |
-| `US-426973-taxonomie-certification-france.md` | 426973 Taxonomie Certification France | 4 | 12 |
-| `US-426406-AGP-categorie-entite-type-EIP.md` | 426406 AGP, catégorie d'entité, Type d'EIP | 7 | 16 |
-| `US-426407-marches-cotation.md` | 426407 Marchés de cotation | 5 | 10 |
-| `US-425530-recherche-entite-id.md` | 425530 Recherche par Entité ID | 3 | 6 |
+| `US-426973-taxonomie-certification-france.md` | 426973 Taxonomie Certification France | 5 | 14 |
+| `US-426406-AGP-categorie-entite-type-EIP.md` | 426406 AGP, catégorie d'entité, Type d'EIP | 11 | 24 |
+| `US-426407-marches-cotation.md` | 426407 Marchés de cotation | 9 | 18 |
+| `US-425530-recherche-entite-id.md` | 425530 Recherche par Entité ID | 5 | 10 |
 | `US-422727-entete-formulaire.md` | 422727 En-tête et bouton Retour | 5 | 9 |
-| `US-427092-titre-sous-titre-affectation.md` | 427092 Titre, sous-titre, affectation | 4 | 8 |
-| Total | 10 US | 51 | 113 |
+| `US-427092-titre-sous-titre-affectation.md` | 427092 Titre, sous-titre, affectation | 5 | 10 |
+| Total | 10 US | 65 | 139 |
 
 Périmètre testé : France uniquement, mandats de Certification des comptes uniquement. Les règles des US qui portent sur la Durabilité, le type mixte ou les autres pays sont marquées « Hors périmètre » dans la couverture et n'ont pas de scénario.
 
@@ -25,9 +25,20 @@ Chaque fichier a trois sections : les scénarios, la couverture de chaque règle
 ## Choix de rédaction
 
 1. Chaque scénario dit qui est connecté, sur quel écran, avec quelles données. Les préconditions décrivent un état, pas des clics.
-2. Chaque scénario est joué pour chaque profil habilité par l'US (colonne `cas` des Exemples). Le profil Utilisateur n'est rédigé nulle part au sprint 3 : le PRD le limite aux données validées, et aucune demande de test ne l'est (Q5).
+2. Chaque scénario est joué pour chaque profil habilité par l'US (colonne `cas` des Exemples). Le profil User est testé en refus d'écriture (DM-04, DM-05), parce que le PRD est clair sur ce point. Sa visibilité sur les demandes non validées reste bloquée par Q5.
 3. Une règle que le PO n'a pas tranchée n'a pas de scénario : elle est listée en section 3 avec sa question.
 4. Quand une US annonce un message sans en donner le texte final, le résultat est « un message d'erreur s'affiche » et le texte reste une question.
+5. Un cas d'erreur est rédigé dès que l'état final se déduit d'une règle, même si le message est inconnu. Exemple : MC-09 vérifie que la demande enregistrée n'a pas deux fois Euronext, que le serveur refuse l'envoi ou corrige la valeur. Seuls les cas sans état final déductible restent en section 3.
+
+## Répartition des cas
+
+| Nature | Scénarios |
+|---|---|
+| Parcours normal et règles de cascade | 35 |
+| Erreur, refus, contournement par l'API, conflits de cascade, robustesse | 27 (ENG 10, EIP 4, MC 4, TAX 3, DM 2, RECH 2, DA 1, TIT 1) |
+| Cas limites | 3 (ENG-07, HEAD-02, HEAD-05) |
+
+Les cas encore bloqués sont les principaux cas d'erreur du sprint : champs obligatoires vides (Q-21), recherche partielle (Q-32), sortie d'EIP (Q-27), Entité ID inconnue (Q-19). Ce sont les questions à relancer en premier.
 
 ## Passage vers Azure Test Plans
 
@@ -51,6 +62,11 @@ Mets la liste des profils dans un paramètre partagé « Profils habilités » :
 | Donnée | Contenu | Utilisée par |
 |---|---|---|
 | AD-TEST-01, SA-TEST-01 | Comptes Admin (périmètre France) et SuperAdmin | Tous |
+| US-TEST-01 | Compte User | DM-04, DM-05 |
+| DEM-DROIT-01 | Demande en cours, Catégorie du mandat Nouveau, réservée au refus du User | DM-05 |
+| ENT-RECH-04, DEM-RECH-04 | Entité dont la seule demande est au statut « Validé » (à injecter par un développeur) | RECH-05 |
+| ENT-RECH-99 | Identifiant présent nulle part | RECH-04 |
+| DEM-TEST-08 et TITRE-SPECIAL | Demande dont le titre vaut exactement `Études & Fils <b>Test</b> l'Étoile` (à injecter par un développeur) | TIT-05 |
 | ENT-ENG-01 à ENT-ENG-08 | Entités France neuves, sans aucune demande, une par création réussie | ENG-01, 06, 07, 13 |
 | ENT-ENG-10 | Entité neuve qui ne doit jamais recevoir de demande (toutes les créations dessus doivent échouer) | ENG-02, 08, 09, 10, 14, 16 |
 | ENT-ENG-11 | Entité à laquelle est rattaché l'engagement 1021003 | ENG-10, 14 |
@@ -63,7 +79,7 @@ Mets la liste des profils dans un paramètre partagé « Profils habilités » :
 | ENT-RECH-01, ENT-RECH-02, DEM-RECH-01 à 03 | Entités et demandes réservées à la recherche ; DEM-RECH-01 au millésime 2027, DEM-RECH-02 au millésime 2026 | RECH |
 | ENT-HEAD-01 « Société Test Alpha », DEM-TEST-02 | Demande en cours | HEAD |
 | ENT-HEAD-99, DEM-TEST-06 | Demande sur une entité absente du référentiel | HEAD-02 |
-| DEM-TEST-04 | Demande au statut « Validé » (à injecter par un développeur) | HEAD-04 |
+| DEM-TEST-04 | Demande au statut « Validé » avec France, Certification des comptes, Nouveau (à injecter par un développeur) | HEAD-04, DM-04 |
 | DEM-TEST-07 | Demande avec titre, sous-titre et « Affectée à » renseignés | TIT |
 
 Toutes les entités sont françaises et tous les mandats de Certification des comptes. Les identifiants sont fictifs : remplace-les par les données réelles de préprod avant l'exécution, en gardant les mêmes caractéristiques.
@@ -100,3 +116,4 @@ Elles complètent Q1 à Q10 des sprints 1 et 2. À poser en premier : Q-19, Q-13
 | Q-37 | Origine du titre et du sous-titre ; mandat sans sous-titre | Non rédigé | PO |
 | Q-38 | L'unicité des marchés de cotation est-elle contrôlée aussi côté serveur ? | Non rédigé | Développeur |
 | Q-40 | Le périmètre est France et Certification des comptes : que doivent proposer les listes Pays et Type de mandat, alors que 426402 décrit 18 pays et 3 types ? L'US sera-t-elle mise à jour ? | DM-01 | PO |
+| Q-41 | Face à une combinaison interdite envoyée par l'API (EIP avec AGP Oui, marché en double, marché 1 Non coté avec un marché réel), le serveur refuse-t-il l'envoi ou corrige-t-il la valeur ? Avec quel code ? | Précision de EIP-10, EIP-11, MC-08, MC-09 | Développeur |

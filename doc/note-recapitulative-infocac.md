@@ -1,6 +1,6 @@
 # InfoCAC : note récapitulative pour la recette
 
-Mise à jour le 26/10/2026, après la conception des cas du sprint 3. Ce document explique le projet, la façon d'exécuter les tests et les pièges à surveiller. Il s'appuie sur le PRD consolidé du 23/09/2026 (lu en captures), le PRD reconstitué, les US des sprints 1 à 3 et les cas déjà rédigés dans ce dépôt. Ce qui vient d'une interprétation est signalé comme tel.
+Mise à jour le 27/10/2026, après l'ajout des cas d'erreur du sprint 3. Ce document explique le projet, la façon d'exécuter les tests et les pièges à surveiller. Il s'appuie sur le PRD consolidé du 23/09/2026 (lu en captures), le PRD reconstitué, les US des sprints 1 à 3 et les cas déjà rédigés dans ce dépôt. Ce qui vient d'une interprétation est signalé comme tel.
 
 ## 1. Le projet en une page
 
@@ -69,14 +69,14 @@ Statuts cités dans les sources : En cours, Analyse OCR, Retard (plus de 60 jour
 | Sorties | Référentiel France, Déclaration d'Activités, MyRotations |
 | Environnements | Dev, préprod, prod. Pas d'ITG. La QA teste en préprod, puis le métier y fait sa recette |
 
-Au 23/10/2026, l'exécution est bloquée : pas d'accès à la préprod, pas de comptes de test.
+Au 27/10/2026, la préprod est accessible. Restent à confirmer : un compte par rôle, les données de test et les demandes validées à injecter. L'ordre d'exécution est dans `doc/ordre-execution-sprints-1-a-3.md`.
 
 ## 6. Ce que construisent les sprints 1 à 3
 
 | Sprint | Contenu | Cas dans ce dépôt |
 |---|---|---|
-| 1 et 2 | Side panel Discovery, groupes de sécurité, création d'une demande, liste, filtres | `cas-de-test/*.md` (43 cas) |
-| 3 | Numéro d'engagement et contrôles à la création, recherche par Entité ID, en-tête du formulaire, section Description du mandat (pays, type, catégorie, indicateurs DA, taxonomie, qualification EIP, marchés de cotation) | `cas-de-test/sprint-3/` (51 scénarios, 113 exécutions) |
+| 1 et 2 | Side panel Discovery, groupes de sécurité, création d'une demande, liste, filtres | `cas-de-test/*.md` (38 cas dans ce dépôt pour 43 annoncés ; Discovery et groupes de sécurité sans fichier ici) |
+| 3 | Numéro d'engagement et contrôles à la création, recherche par Entité ID, en-tête du formulaire, section Description du mandat (pays, type, catégorie, indicateurs DA, taxonomie, qualification EIP, marchés de cotation) | `cas-de-test/sprint-3/` (65 scénarios, 139 exécutions, dont 27 scénarios d'erreur, de refus ou de contournement par l'API) |
 
 Ce qui n'a pas encore de sprint et porte pourtant le plus de risque : la reprise des 15 000 mandats IBS, le cycle de vie des statuts, la porte de validation, le journal d'activité, les flux sortants, le multi-millésime.
 
@@ -181,7 +181,7 @@ La liste complète des questions est dans `cas-de-test/sprint-3/README.md`.
 
 ## 12. L'automatisation, plus tard
 
-Rien n'est automatisé au sprint 3 : le formulaire gagne des champs à chaque sprint, et les indicateurs DA et la taxonomie ne sont pas encore enregistrés. Le démarrage est envisagé vers le sprint 6 ou 7, avec Playwright (API et UI), un dépôt GitHub et une CI dans Azure Pipelines. Les meilleurs candidats du sprint 3 sont les contrôles serveur de l'engagement (ENG-10, ENG-12, ENG-13), les droits du User sur la liste (Q5) et la table de décision de la taxonomie, une fois enregistrée.
+Rien n'est automatisé au sprint 3 : le formulaire gagne des champs à chaque sprint, et les indicateurs DA et la taxonomie ne sont pas encore enregistrés. Le démarrage est envisagé vers le sprint 6 ou 7, avec Playwright (API et UI), un dépôt GitHub et une CI dans Azure Pipelines. Les meilleurs candidats du sprint 3 sont les contrôles serveur de l'engagement (ENG-10, ENG-12, ENG-13), les contournements par l'API de la cascade (EIP-10, EIP-11, MC-08, MC-09), le refus d'écriture du User (DM-05), les droits du User sur la liste (Q5) et la table de décision de la taxonomie, une fois enregistrée.
 
 ## 13. Où trouver quoi
 
@@ -191,4 +191,5 @@ Rien n'est automatisé au sprint 3 : le formulaire gagne des champs à chaque sp
 | Cas de test du sprint 3, données, questions | `cas-de-test/sprint-3/` |
 | Règles de rédaction et script de contrôle | `skills/gherkin-test-generation/` |
 | Estimation de la recette | `doc/estimation-recette-sprints-1-a-5.md` |
+| Ordre d'exécution des sprints 1 à 3 | `doc/ordre-execution-sprints-1-a-3.md` |
 | Messages déjà envoyés (environnements, automatisation) | `doc/message-teams-*.md` |

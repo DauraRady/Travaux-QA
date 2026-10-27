@@ -65,6 +65,20 @@ Fonctionnalité: Renseigner la taxonomie pour un mandat de Certification des com
       | cas             | compte     | role       |
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
+
+  Plan du scénario: TAX-05 Revenir de Renouvellement à Nouveau : AA12 est remplacée par AA11
+    Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
+    Et qu'une demande vierge est ouverte sur la section "Description du mandat"
+    Et que j'ai sélectionné le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Renouvellement"
+    Et que le bloc "Taxonomie" affiche "AA12 - CAC Maintien"
+    Quand je sélectionne "Nouveau" dans le champ "Catégorie du mandat"
+    Alors le bloc "Taxonomie" affiche uniquement "AA11 - CAC Nouveau"
+    Et le bloc "Taxonomie" n'affiche pas "AA12 - CAC Maintien"
+
+    Exemples:
+      | cas             | compte     | role       |
+      | rôle Admin      | AD-TEST-01 | Admin      |
+      | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 ```
 
 ## 2. Couverture
@@ -76,7 +90,7 @@ Fonctionnalité: Renseigner la taxonomie pour un mandat de Certification des com
 | RG-TAX-CERT-03 Nouveau ou Reprise : AA11 | TAX-01 | Couvert |
 | RG-TAX-CERT-04 Renouvellement : AA12 | TAX-01 | Couvert |
 | RG-TAX-CERT-05 Une seule taxonomie | TAX-01, TAX-02, TAX-04 | Couvert |
-| RG-TAX-CERT-06 Recalcul automatique | TAX-02 | Partiel : seul le changement de catégorie existe dans le périmètre (France, Certification) ; capture coupée après le point 1 |
+| RG-TAX-CERT-06 Recalcul automatique | TAX-02, TAX-05 | Partiel : seul le changement de catégorie existe dans le périmètre (France, Certification) ; capture coupée après le point 1 |
 
 ## 3. Non rédigé
 

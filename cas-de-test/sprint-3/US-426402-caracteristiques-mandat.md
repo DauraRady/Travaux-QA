@@ -4,7 +4,7 @@ Sources : US 426402 (captures du 23/10/2026). Données fictives uniquement.
 
 Périmètre testé : Pays « France » et Type de mandat « Certification des comptes » uniquement. L'US décrit encore 18 pays et trois types de mandat ; les autres pays, la Durabilité et le type mixte sont hors périmètre et ne sont pas testés (Q-40).
 
-Profils habilités : « collaborateur habilité à compléter une demande », soit Admin et SuperAdmin.
+Profils habilités : « collaborateur habilité à compléter une demande », soit Admin et SuperAdmin. Le profil User, non habilité, est testé en refus (DM-04, DM-05).
 
 « Une demande vierge » : une demande au statut « En cours », créée pour l'occasion sur une entité neuve, dont aucun champ de la section n'est rempli. Une demande par scénario, pour ne pas hériter des valeurs d'un autre.
 
@@ -50,6 +50,20 @@ Fonctionnalité: Renseigner les caractéristiques principales du mandat
       | cas             | compte     | role       |
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
+
+  Scénario: DM-04 Ouvrir une demande validée avec le rôle User : la section Description du mandat est en lecture seule
+    Étant donné que je suis connecté avec le compte "US-TEST-01" ayant le rôle "User"
+    Et que la demande "DEM-TEST-04" est au statut "Validé" avec le Pays "France", le Type de mandat "Certification des comptes" et la Catégorie du mandat "Nouveau"
+    Quand j'ouvre le formulaire de la demande "DEM-TEST-04" par son lien direct
+    Alors les champs "Pays", "Type de mandat" et "Catégorie du mandat" affichent "France", "Certification des comptes" et "Nouveau"
+    Et aucun champ de la section "Description du mandat" n'est modifiable
+
+  Scénario: DM-05 Modifier une demande par l'API avec le rôle User : refus et demande inchangée
+    Étant donné que je suis connecté avec le compte "US-TEST-01" ayant le rôle "User"
+    Et que la demande "DEM-DROIT-01" est au statut "En cours" avec la Catégorie du mandat "Nouveau"
+    Quand j'envoie directement à l'API l'enregistrement de la demande "DEM-DROIT-01" avec la Catégorie du mandat "Renouvellement"
+    Alors l'API refuse l'enregistrement pour droits insuffisants
+    Et la demande "DEM-DROIT-01" relue avec le compte "AD-TEST-01" a toujours la Catégorie du mandat "Nouveau"
 ```
 
 ## 2. Couverture
@@ -62,6 +76,9 @@ Fonctionnalité: Renseigner les caractéristiques principales du mandat
 | RG-DM-01 Champs obligatoires | | Non couvert : moment et forme du contrôle inconnus (Q-21) |
 | RG-DM-03 Hors France : Certification imposée | | Hors périmètre (France uniquement) |
 | RG-DM-04 France : trois types | | Hors périmètre (Certification des comptes uniquement) ; contenu de la liste à confirmer (Q-40) |
+| Profils : seul un collaborateur habilité complète la demande | DM-04, DM-05 | Couvert pour le User, à l'écran et par l'API |
+
+DM-04 et DM-05 reposent sur le PRD : le User consulte les données validées, sans écriture. DM-04 utilise une demande validée parce que c'est la seule que le User est sûr de pouvoir ouvrir (Q5). DM-05 utilise une demande en cours, pour que le refus vienne du rôle et pas du statut : sur une demande validée, un refus ne prouverait rien sur les droits du User. Le code attendu est en principe 403, à confirmer (Q-12).
 
 ## 3. Non rédigé
 
