@@ -45,14 +45,16 @@ L'agent doit être l'agent principal de la session, pas un sous-agent appelé en
 |---|---|---|
 | Une fois par projet | `/init-contexte <projet>` | `docs/projets/<projet>/CONTEXTE.md`, à relire et commiter |
 | Analyser une US | `/us-analysis 1234` | `qc-reports/US-1234.md` : analyse et propositions pour le contexte |
-| Écrire les scénarios | `/gherkin-test-generation 1234` | Scénarios ajoutés au rapport, contrôlés par le script |
-| Enrichir le contexte | `/maj-contexte 1234` | Aperçu des lignes, puis écriture après « oui » |
+| Écrire les scénarios | `/gherkin-test-generation 1234` | Scénarios ajoutés au rapport, contrôlés par le script ; tableau `ID, Test case, Gherkin BDD scenario, Type of test` dans `qc-reports/US-1234-ado.md` |
+| Enrichir le contexte | `/maj-contexte 1234` | Reprend les propositions de l'analyse et de la rédaction ; aperçu des lignes, puis écriture après « oui » |
 | Intégrer une réponse du PO | `/maj-contexte po "<réponse>" (Prénom, 22/10)` | Le point ouvert devient une règle |
 | Publier | `/publication-ado 1234` | Aperçu, puis création après « oui » |
 | CSV à importer | `/publication-ado 1234 csv` | `qc-reports/US-1234-import.csv` |
 | Rédiger un bug | `/redaction-anomalie <ce que j'ai vu>` | Aperçu, puis création après « oui » |
 
 Un document déposé ou un texte collé sans commande ne déclenche rien : l'agent dit ce qu'il a reçu et attend.
+
+Le cycle d'une US : `/us-analysis`, réponses du PO aux questions bloquantes, `/gherkin-test-generation`, relecture, `/maj-contexte`, publication. À chaque US, le contexte gagne les rôles, comptes, données, variations et flux validés : l'US suivante part de plus loin.
 
 Plusieurs projets dans le même dépôt : un dossier par projet sous `docs/projets/`, et `projet=<nom>` dans la demande.
 

@@ -15,7 +15,7 @@ Le contexte est lu avant chaque analyse. Une erreur écrite ici se répète dans
 
 | Entrée | Ce que l'agent lit |
 |---|---|
-| `<id US>` | La section « Propositions pour le contexte » de `qc-reports/US-<id>.md` |
+| `<id US>` | Les sections « Propositions pour le contexte » de `qc-reports/US-<id>.md` : celle de l'analyse et celle de la rédaction |
 | `po "<réponse>"` avec auteur et date | La réponse, et le point de la section 9 auquel elle répond |
 | `source <fichier>` | La nouvelle version dans `sources/`, comparée au contexte |
 
@@ -34,7 +34,7 @@ Lire ensuite `docs/projets/<projet>/CONTEXTE.md` en entier.
 | Écart | Contradiction sans source plus récente | Un point en section 9, rien d'autre ne change |
 | Refus | Hypothèse, déduction, bonne pratique, question encore ouverte, détail propre à une seule US | Rien n'entre ; dire pourquoi |
 
-Ne retenir dans le contexte que ce qui servira à d'autres US : rôles, statuts, transitions, règles transverses, vocabulaire, écrans. Le détail d'une seule US reste dans son rapport.
+Ne retenir dans le contexte que ce qui servira à d'autres US : rôles, comptes et données de test, statuts, transitions, règles transverses, vocabulaire, écrans, variations (section 10), flux (section 11). Le détail d'une seule US reste dans son rapport.
 
 ## 3. Aperçu, puis validation
 
@@ -49,7 +49,7 @@ Puis les refus, une ligne chacun avec la raison. Puis demander : « J'applique c
 
 1. Modifier uniquement les lignes de l'aperçu validé. Ne jamais supprimer une ligne, ne jamais reformuler une ligne non citée.
 2. En-tête : date du jour, version augmentée de 0.1.
-3. Journal (section 10) : date, « agent QA, validé par l'utilisateur », sections modifiées, motif (« US 1234 », « réponse PO du 22/10 »).
+3. Journal (section 12) : date, « agent QA, validé par l'utilisateur », sections modifiées, motif (« US 1234 », « réponse PO du 22/10 »).
 4. Ne pas commiter.
 
 ## 5. Compte rendu

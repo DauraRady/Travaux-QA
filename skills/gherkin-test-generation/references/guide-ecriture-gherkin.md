@@ -184,3 +184,33 @@ Le scénario du point 7 devient :
 | 1 | Préconditions : connecté avec "ADM-TEST-01" (Admin) ; panneau de création ouvert, nature "Nouveau" ; l'entité "ENT-INCONNUE-99" n'existe pas | |
 | 2 | Renseigner tous les champs obligatoires avec l'entité "ENT-INCONNUE-99" | |
 | 3 | Valider la création | Le champ "Entité" est surligné en rouge. Le message "entité inconnue" s'affiche sous le champ. Aucune demande pour "ENT-INCONNUE-99" n'apparaît dans la liste |
+
+## 14. Récupération après un refus
+
+Seulement si la source dit que l'utilisateur peut corriger et recommencer. Le blocage et la récupération sont deux scénarios : la récupération part de l'état d'erreur.
+
+Bon :
+
+```gherkin
+Scénario: Une demande refusée pour un champ vide est créée une fois le champ rempli
+  Étant donné que l'utilisateur "ADM-TEST-01" est connecté avec le rôle "Admin"
+  Et que le formulaire de création affiche le champ "N° Requête BSC" en erreur après une première validation
+  Quand il renseigne le N° Requête BSC "BSC-TEST-01"
+  Et qu'il clique sur "Valider la création"
+  Alors une nouvelle demande est créée
+  Et le champ "N° Requête BSC" n'est plus en erreur
+```
+
+Mauvais : enchaîner le refus puis la correction dans un seul scénario (deux comportements, deux Quand), ou écrire une récupération que la source ne décrit pas.
+
+## 15. Type de test et tableau Azure DevOps
+
+Un scénario d'interface porte une ligne de commentaire sous son titre :
+
+```gherkin
+Scénario: Le titre du champ en erreur passe en rouge
+  # Type : UI
+  Étant donné que …
+```
+
+Le tableau `ID | Test case | Gherkin BDD scenario | Type of test` se produit avec `build_tc.py table`. Ne pas le recopier à la main : une étape oubliée ou un paramètre mal renommé ne se voient pas à la relecture d'un tableau.

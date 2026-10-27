@@ -106,11 +106,27 @@ Toutes les données sont fictives. Elles ne créent aucune règle métier.
 
 Une ligne ouverte ne produit aucun résultat attendu.
 
-| ID | Sujet | Ce qui est connu | Question | Bloquante ? | État (ouvert, répondu) |
-|---|---|---|---|---|---|
-| CONF-01 | | | | oui / non | |
+| ID | Sujet | Ce qui est connu | Question | Impact si sans réponse (règles, US, scénarios bloqués) | Bloquante ? | État (ouvert, répondu) |
+|---|---|---|---|---|---|---|
+| CONF-01 | | | | | oui / non | |
 
-## 10. Journal
+## 10. Variations
+
+Ce qui change le comportement selon le pays, le rôle ou le type d'objet. Chaque variation décrite devient une combinaison à tester dans les US qu'elle touche.
+
+| ID | Varie selon | Valeurs | Ce qui change | Source | Statut |
+|---|---|---|---|---|---|
+| VAR-01 | [pays, rôle, type d'objet] | [valeurs] | [champ, règle, écran] | | confirmée / à confirmer |
+
+## 11. Flux entrants et sortants
+
+Les échanges avec les autres systèmes. Un flux touché par une US donne une précondition (donnée reçue) ou un résultat (donnée envoyée) à vérifier.
+
+| ID | Sens | Système | Déclencheur | Données échangées | Ce qu'on peut vérifier en test | Source | Statut |
+|---|---|---|---|---|---|---|---|
+| FLX-01 | entrant / sortant | [système] | [événement, planification] | [objet, champs] | [écran, statut, fichier, trace] | | confirmé / à confirmer |
+
+## 12. Journal
 
 | Date | Auteur | Sections modifiées | Motif |
 |---|---|---|---|

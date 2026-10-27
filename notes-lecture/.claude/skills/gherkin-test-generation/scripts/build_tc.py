@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """Contrôle et construction des scénarios Gherkin du QC agent, sans IA.
 
-Trois commandes :
+Quatre commandes :
   check  RAPPORT.md                         contrôle les blocs ```gherkin du rapport
+  table  RAPPORT.md --out FICHIER.md        le tableau ID | Test case | Gherkin BDD scenario | Type of test,
+                                            préconditions répétées dans chaque cas, paramètres en @param
   build  RAPPORT.md --us ID --out DOSSIER   un fichier JSON-Patch par scénario (API Azure DevOps)
                                             et un manifest.json
   csv    RAPPORT.md --us ID --out FICHIER   un CSV à importer dans Test Plans (aucune écriture API)
+
+Type d'un scénario : une ligne de commentaire « # Type : UI » sous son titre. Sans elle : Fonctionnel.
 
 Le rapport est qc-reports/US-<id>.md, relu par un humain. Le script lit tous les blocs
 ```gherkin du fichier. Aucun appel réseau.
@@ -28,6 +32,8 @@ ENGLISH = re.compile(r"^(Given|When|Then|And|But|Feature|Scenario|Scenario Outli
 VAGUE = [r"\bcorrectement\b", r"\bnormalement\b", r"\bcomme prévu\b", r"\bfonctionne\b", r"\best OK\b",
          r"\bavec succès\b", r"\bbien\b"]
 PARAM = re.compile(r"<([a-z_][a-z0-9_]*)>")
+TYPE_LINE = re.compile(r"^#\s*Type\s*:\s*(.+)$", re.IGNORECASE)
+TYPES = ("Fonctionnel", "UI", "API", "Sécurité", "Performance", "Accessibilité", "UAT", "Exploratoire")
 MAX_TITLE = 128
 
 
@@ -62,6 +68,10 @@ def parse(blocks):
     for block in blocks:
         context, scen, in_context, in_examples = [], None, False, False
         for line in block:
+            m = TYPE_LINE.match(line)
+            if m and scen is not None:
+                scen["type"] = m.group(1).strip()
+                continue
             if not line or line.startswith("#") or line.startswith("@"):
                 continue
             if ENGLISH.match(line):
@@ -76,7 +86,8 @@ def parse(blocks):
                 in_context, in_examples = False, False
                 scen = {"title": line.split(":", 1)[1].strip() if ":" in line else line,
                         "plan": line.startswith("Plan"), "context": list(context),
-                        "given": [], "when": [], "then": [], "examples": [], "phase": None, "errors": []}
+                        "given": [], "when": [], "then": [], "examples": [], "phase": None, "errors": [],
+                        "type": "Fonctionnel"}
                 scenarios.append(scen)
                 continue
             if line.startswith("Exemples"):
@@ -163,6 +174,8 @@ def check(scenarios, block_errors):
                     warnings.append(f"« {t} » : une seule ligne d'Exemples, un Scénario simple suffit")
         elif used:
             errors.append(f"« {t} » : paramètres <…> dans un Scénario simple")
+        if sc["type"] not in TYPES:
+            warnings.append(f"« {t} » : type « {sc['type']} » inhabituel (attendu : {', '.join(TYPES)})")
     return errors, warnings
 
 
@@ -251,10 +264,39 @@ def variants(sc):
     return out
 
 
+def md(text):
+    return text.replace("|", "\\|")
+
+
+def write_table(scenarios, out):
+    """Tableau à 4 colonnes, une ligne par cas ; les préconditions du Contexte sont répétées."""
+    lines = ["| ID | Test case | Gherkin BDD scenario | Type of test |", "|---|---|---|---|"]
+    params = []
+    for i, sc in enumerate(scenarios, 1):
+        tc = f"TC-{i:03d}"
+        steps = [to_ado(l) for l in sc["context"] + sc["given"] + sc["when"] + sc["then"]]
+        lines.append(f"| {tc} | {md(sc['title'])} | {'<br>'.join(md(l) for l in steps)} | {sc['type']} |")
+        if sc["plan"] and len(sc["examples"]) > 1:
+            header = sc["examples"][0]
+            params.append(f"\n{tc} : paramètres\n")
+            params.append("| " + " | ".join("cas" if n == "cas" else "@" + n for n in header) + " |")
+            params.append("|" + "---|" * len(header))
+            params += ["| " + " | ".join(md(v) for v in r) + " |" for r in sc["examples"][1:]]
+    folder = os.path.dirname(out)
+    if folder:
+        os.makedirs(folder, exist_ok=True)
+    with open(out, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(lines) + "\n" + ("\n".join(params) + "\n" if params else ""))
+    return len(scenarios)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
     sub.add_parser("check").add_argument("report")
+    t = sub.add_parser("table")
+    t.add_argument("report")
+    t.add_argument("--out", required=True)
     for name in ("build", "csv"):
         q = sub.add_parser(name)
         q.add_argument("report")
@@ -279,6 +321,10 @@ def main():
     if errors:
         return 1
     if args.cmd == "check":
+        return 0
+    if args.cmd == "table":
+        n = write_table(scenarios, args.out)
+        print(f"TABLEAU : {n} cas dans {args.out}")
         return 0
 
     if args.cmd == "build":

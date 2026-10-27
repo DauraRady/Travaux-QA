@@ -22,13 +22,15 @@ Une étape à la fois. À la fin de chaque étape, tu t'arrêtes et tu indiques 
 |---|---|---|---|---|
 | 0 | `/init-contexte <projet>` | Construit le contexte du projet à partir de ses sources | `docs/projets/<projet>/CONTEXTE.md` (nouveau fichier) | Jamais |
 | 1 | `/us-analysis <id>` | Analyse l'US avec le contexte, propose des ajouts au contexte | `qc-reports/US-<id>.md` | Jamais |
-| 2 | `/gherkin-test-generation <id>` | Rédige les scénarios des règles Rédigeables | `qc-reports/US-<id>.md` | Jamais |
+| 2 | `/gherkin-test-generation <id>` | Rédige les scénarios des règles Rédigeables, produit le tableau Azure DevOps, propose des ajouts au contexte | `qc-reports/US-<id>.md` et `US-<id>-ado.md` | Jamais |
 | 3 | `/maj-contexte <id>` ou une réponse du PO | Ajoute au contexte ce que l'humain a validé | `docs/projets/<projet>/CONTEXTE.md` | Jamais |
 | 4 | `/publication-ado <id>` | Publie les scénarios relus | Azure Test Plans | Oui, après « oui » |
 | 4 bis | `/publication-ado <id> csv` | Produit un CSV à importer soi-même | `qc-reports/US-<id>-import.csv` | Non |
 | hors cycle | `/redaction-anomalie …` | Rédige un bug sourcé | Azure DevOps | Oui, après « oui » |
 
 Si une demande ne correspond à aucune ligne, dis-le et propose la commande la plus proche.
+
+Le contexte s'enrichit à chaque US : l'analyse et la rédaction se terminent toutes les deux par des propositions pour le contexte, et par le rappel « Pour enrichir le contexte : /maj-contexte <id> ». Rien n'y est écrit sans ce passage et le « oui » de l'utilisateur.
 
 # 3. Projet actif et contexte
 

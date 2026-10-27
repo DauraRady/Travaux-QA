@@ -31,7 +31,9 @@ Lire chaque source en entier, chapitre par chapitre. Ne retenir que ce qui sert 
 | 5. Objets, statuts, transitions | Vocabulaire, statuts affichés, transitions écrites | Une transition supposée |
 | 6. Règles transverses | Règles valables pour plusieurs écrans ou US | Le détail propre à une seule US |
 | 7. Écrans | Écrans cités et leur accès | Un export, une recherche ou une API non cités |
-| 9. Points à confirmer | Contradictions entre sources, listes annoncées absentes, termes non définis | Une réponse proposée par l'agent |
+| 9. Points à confirmer | Contradictions entre sources, listes annoncées absentes, termes non définis, avec leur impact | Une réponse proposée par l'agent |
+| 10. Variations | Ce qui change selon le pays, le rôle ou le type d'objet, écrit dans une source | Une variation supposée « par habitude du domaine » |
+| 11. Flux | Échanges avec les autres systèmes : sens, système, déclencheur, données | Un flux déduit d'un nom de champ |
 
 Les sections 4 (comptes de test) et 8 (données de test) sont remplies par l'équipe : les laisser au modèle.
 

@@ -75,6 +75,7 @@ Si on ne sait pas avec quel rôle agir, ou quelle donnée préparer, la règle n
 | Limite | Dès qu'une règle Rédigeable contient un nombre, une date, une durée ou un plafond : la borne, et la valeur juste au-delà si le comportement au-delà est écrit |
 | Variante | Chaque combinaison Rédigeable de l'analyse dont le résultat diffère (rôle, type d'objet, nature) |
 | Filtrage mixte | Règle avec « uniquement », « seulement », « exclut » : un objet autorisé et un objet non autorisé dans le même scénario |
+| Récupération | Seulement si la source dit que l'utilisateur peut corriger et recommencer après un refus. Scénario séparé du blocage : il part de l'état d'erreur (Étant donné), l'utilisateur corrige (Quand), l'action aboutit (Alors). Sinon, c'est une idée exploratoire |
 
 Technique à choisir selon la forme de la règle :
 
@@ -86,11 +87,15 @@ Technique à choisir selon la forme de la règle :
 | Statuts | Transitions d'état | Les transitions autorisées et les refus décrits |
 | Droits | Matrice rôle × action | Les rôles cités et leur résultat |
 
+Rôles et catégories de données : quand plusieurs rôles ou catégories mènent à des résultats différents par les mêmes étapes, un Plan du scénario avec une ligne d'Exemples par rôle ou catégorie, plutôt que des scénarios recopiés.
+
+Type de test : sous le titre d'un scénario qui n'est pas fonctionnel, une ligne de commentaire `# Type : UI` (ou API, Sécurité, Performance, Accessibilité, UAT). Sans cette ligne, le type est Fonctionnel. Le type ne change ni la rédaction ni la publication : tous les cas retenus sont publiés.
+
 Pas de doublon : un scénario par résultat attendu distinct. Deux valeurs qui mènent au même résultat sont le même scénario. Une valeur qui ne change pas le comportement décrit ne justifie pas un scénario.
 
 ## Données
 
-1. Identifiants fictifs reconnaissables : `ADM-TEST-01`, `DEM-TEST-03`, `ENT-TEST-01`. Reprendre ceux du contexte projet s'ils existent.
+1. Identifiants fictifs reconnaissables : `ADM-TEST-01`, `DEM-TEST-03`, `ENT-TEST-01`. Reprendre d'abord ceux du contexte projet (sections 4 et 8). Tout identifiant nouveau devient une proposition pour le contexte, pour que les US suivantes réutilisent les mêmes données.
 2. Chaque scénario a ses propres données : aucun scénario ne dépend d'un autre.
 3. Dates relatives (« créée il y a 61 jours », « l'année fiscale en cours ») plutôt que des dates fixes qui changeraient le résultat avec le temps.
 4. Le même fait s'écrit avec la même phrase dans tous les scénarios.
@@ -113,6 +118,22 @@ Si le format manuel est demandé, chaque scénario devient un cas :
 
 Objectif du cas : uniquement s'il apporte une information que le titre ne donne pas (la règle vérifiée ou l'erreur que le cas détecterait). Aucun prérequis n'est ajouté pendant la transformation : ils viennent tous du Gherkin.
 
+## Tableau pour Azure DevOps
+
+Le tableau `ID | Test case | Gherkin BDD scenario | Type of test` n'est jamais écrit à la main : il est produit par le script, à partir des blocs Gherkin relus.
+
+```bash
+python3 .claude/skills/gherkin-test-generation/scripts/build_tc.py table qc-reports/US-<id>.md --out qc-reports/US-<id>-ado.md
+```
+
+Ce que fait le script :
+
+1. Une ligne par scénario, numérotée TC-001, TC-002…
+2. Les étapes séparées par `<br>`, dans l'ordre Étant donné, Quand, Alors.
+3. Les préconditions du `Contexte` répétées dans chaque cas, puisque Azure DevOps ne connaît pas le `Contexte`. Dans le Gherkin, elles restent écrites une seule fois.
+4. Les paramètres `<role>` deviennent `@role`, avec un tableau des valeurs sous le tableau principal, un par cas paramétré.
+5. Le type vient de la ligne `# Type : …`, sinon Fonctionnel.
+
 ## Format de sortie
 
 ```
@@ -125,7 +146,13 @@ Couvert, partiel ou non couvert, avec la raison (renvoi à la question de l'anal
 
 ## 3. Non rédigé
 Les règles À arbitrer et Exploratoires de l'analyse, en une ligne chacune, avec le renvoi à la question. Ne pas les réécrire.
+
+## 4. Propositions pour le contexte
+| # | Proposition (une ligne) | Section du contexte | Type | Source |
+Ce que la rédaction a fait apparaître et qui servira aux US suivantes : comptes de test par rôle (section 4), données fictives et leur état (section 8), écran ou terme précisé (sections 5 et 7). Rien n'est écrit dans le contexte : /maj-contexte le fera après validation.
 ```
+
+Puis produire le tableau Azure DevOps avec le script (section Tableau pour Azure DevOps) et terminer en rappelant : « Pour enrichir le contexte : /maj-contexte <id> ».
 
 ## Contrôle sans IA
 
@@ -135,7 +162,7 @@ Lancer le script de ce skill sur le rapport avant de livrer (`python` si `python
 python3 .claude/skills/gherkin-test-generation/scripts/build_tc.py check qc-reports/US-<id>.md
 ```
 
-Il refuse les mots-clés anglais, un deuxième `Quand`, un `Quand` après `Alors`, un scénario sans précondition, sans action ou sans résultat, un résultat vague ou avec « ou », un paramètre absent des `Exemples`, les titres en double. Corriger chaque erreur et relancer jusqu'à zéro.
+Il refuse les mots-clés anglais, un deuxième `Quand`, un `Quand` après `Alors`, un scénario sans précondition, sans action ou sans résultat, un résultat vague ou avec « ou », un paramètre absent des `Exemples`, les titres en double. Il signale un type de test inconnu. Corriger chaque erreur et relancer jusqu'à zéro. Si la commande demande une autorisation, la demander à l'utilisateur : ne jamais livrer sans ce contrôle.
 
 ## Avant de livrer
 
@@ -147,3 +174,6 @@ Il refuse les mots-clés anglais, un deuxième `Quand`, un `Quand` après `Alors
 6. Aucun scénario pour une règle À arbitrer ou Exploratoire.
 7. Aucun doublon de résultat.
 8. Aucun message, statut, code, écran ou champ absent des sources.
+9. Un scénario de récupération n'existe que si la source dit que l'utilisateur peut corriger et recommencer.
+10. Les nouveaux comptes et données de test sont dans les propositions pour le contexte.
+11. Le tableau Azure DevOps vient du script, pas d'une saisie à la main.

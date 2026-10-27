@@ -27,7 +27,7 @@ Une bonne pratique, une habitude du domaine ou une convention d'interface ne ren
 ## Étape 0 : lire les sources
 
 1. Lire l'US : description, critères d'acceptation, et les commentaires quand ils sont demandés.
-2. Lire `docs/projets/<projet>/CONTEXTE.md` en entier, y compris la section 9 (points à confirmer). S'il n'existe pas, le dire en une ligne, proposer `/init-contexte` et continuer sans rien inventer pour compenser.
+2. Lire `docs/projets/<projet>/CONTEXTE.md` en entier, y compris la section 9 (points à confirmer), la section 10 (variations) et la section 11 (flux). S'il n'existe pas, le dire en une ligne, proposer `/init-contexte` et continuer sans rien inventer pour compenser.
 3. Dans `docs/projets/<projet>/sources/`, lire seulement les passages que l'US ou le contexte citent.
 4. Une information donnée dans la demande (réponse du PO, texte d'une maquette) compte comme source seulement avec son auteur et sa date. Une décision du PO est de rang 2, un autre complément de rang 4.
 5. Si les critères ne sont pas numérotés, les numéroter `AC-1`, `AC-2` dans l'ordre du texte.
@@ -100,6 +100,8 @@ Quand une règle dépend de plusieurs conditions (rôle, type d'objet, statut, v
 
 Une combinaison dont le résultat n'est écrit nulle part n'est jamais complétée par supposition : elle devient À arbitrer.
 
+Variantes venant du contexte : si une variation (section 10 : pays, rôle, type d'objet) ou un flux (section 11) touche cette US, l'ajouter aux combinaisons avec sa source. Ne garder que les variantes dont le résultat diffère : deux valeurs qui donnent le même résultat sont un seul cas.
+
 Dès qu'une règle dit « uniquement », « seulement », « exclut » ou « ne contient que », prévoir une combinaison avec un objet autorisé ET un objet non autorisé dans le même état de départ (filtrage mixte).
 
 ## Étape 4 : limites et risques
@@ -149,6 +151,7 @@ Proposer seulement ce qui servira à d'autres US : un rôle, un statut, une tran
 
 | Peut être proposé | Ne peut pas être proposé |
 |---|---|
+| Une variation par pays, rôle ou type d'objet, ou un flux, écrits dans l'US | Une variation ou un flux supposés |
 | Une règle Rédigeable de l'US, avec sa section et son critère | Une règle À arbitrer présentée comme une règle |
 | Une question bloquante, comme point à confirmer | Une réponse supposée à cette question |
 | Un écart entre l'US et le contexte, comme remplacement ou point à confirmer | Une bonne pratique, une habitude du domaine |
