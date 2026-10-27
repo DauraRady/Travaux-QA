@@ -57,6 +57,19 @@ Fonctionnalité: Lire le titre, le sous-titre et l'affectation du mandat
       | cas             | compte     | role       |
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
+
+  Plan du scénario: TIT-05 Ouvrir un mandat dont le titre contient des caractères spéciaux : le titre est affiché à l'identique
+    Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
+    Et que la demande "DEM-TEST-08" a pour titre la valeur TITRE-SPECIAL des données de test
+    Et que le formulaire de la demande "DEM-TEST-08" est ouvert depuis la "Liste des demandes"
+    Quand j'affiche la section "Description du mandat"
+    Alors la section affiche le titre caractère pour caractère identique à TITRE-SPECIAL, balise comprise
+    Et aucune partie du titre n'est affichée en gras
+
+    Exemples:
+      | cas             | compte     | role       |
+      | rôle Admin      | AD-TEST-01 | Admin      |
+      | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 ```
 
 ## 2. Couverture
@@ -69,6 +82,9 @@ Fonctionnalité: Lire le titre, le sous-titre et l'affectation du mandat
 | Mise à jour de l'affectation | TIT-04 | Couvert ; qui peut réaffecter n'est pas dit |
 | Absence de sous-titre | | Non couvert : l'US donne deux résultats possibles (Q-37) |
 | Données indisponibles | | Non couvert : texte coupé sur la capture |
+| Robustesse de l'affichage | TIT-05 | Couvert sur le titre |
+
+TIT-05 utilise la valeur TITRE-SPECIAL du README (caractères accentués, &, apostrophe et une balise HTML). Elle n'est pas recopiée dans le Gherkin, parce que les chevrons y seraient lus comme un paramètre. Si la balise est interprétée (texte en gras, texte disparu), c'est une anomalie de sécurité à remonter en priorité. La demande est à injecter par un développeur tant que l'origine du titre n'est pas connue (Q-37).
 
 ## 3. Non rédigé
 

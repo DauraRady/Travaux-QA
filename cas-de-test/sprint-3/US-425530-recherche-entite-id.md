@@ -49,6 +49,31 @@ Fonctionnalité: Rechercher mes demandes via le numéro Entité ID
       | cas             | compte     | role       |
       | rôle Admin      | AD-TEST-01 | Admin      |
       | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
+
+  Plan du scénario: RECH-04 Rechercher une Entité ID qui n'existe nulle part : aucune demande n'est affichée
+    Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
+    Et que l'Entité ID "ENT-RECH-99" n'existe ni dans le référentiel ni sur une demande
+    Et que je suis sur la "Liste des demandes"
+    Quand je saisis "ENT-RECH-99" dans le champ "Rechercher par Entité ID"
+    Alors aucune demande n'est affichée dans la "Liste des demandes"
+
+    Exemples:
+      | cas             | compte     | role       |
+      | rôle Admin      | AD-TEST-01 | Admin      |
+      | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
+
+  Plan du scénario: RECH-05 Rechercher une entité dont la seule demande est validée : la demande n'est pas affichée
+    Étant donné que je suis connecté avec le compte "<compte>" ayant le rôle "<role>"
+    Et que la seule demande de l'entité "ENT-RECH-04" est "DEM-RECH-04", au statut "Validé"
+    Et que je suis sur la "Liste des demandes"
+    Quand je saisis "ENT-RECH-04" dans le champ "Rechercher par Entité ID"
+    Alors la demande "DEM-RECH-04" n'est pas affichée
+    Et aucune demande n'est affichée dans la "Liste des demandes"
+
+    Exemples:
+      | cas             | compte     | role       |
+      | rôle Admin      | AD-TEST-01 | Admin      |
+      | rôle SuperAdmin | SA-TEST-01 | SuperAdmin |
 ```
 
 ## 2. Couverture
@@ -56,7 +81,8 @@ Fonctionnalité: Rechercher mes demandes via le numéro Entité ID
 | Étape du flow | Scénarios | Couvert ? |
 |---|---|---|
 | 1. Liste et champ de recherche affichés | RECH-01 | Couvert |
-| 2. Recherche par Entité ID | RECH-01 | Partiel : recherche exacte ou partielle, sensibilité à la casse, message sans résultat (Q-32) |
+| 2. Recherche par Entité ID | RECH-01, RECH-04 | Partiel : recherche exacte ou partielle, sensibilité à la casse, texte du message sans résultat (Q-32) |
+| Règle de la liste (sprint 1) : une demande validée n'apparaît pas | RECH-05 | Couvert ; la recherche ne doit pas faire réapparaître ce que la liste exclut |
 | 3. Combinaison avec d'autres filtres | RECH-02 | Couvert sur un filtre ; les autres en exploratoire |
 | 4. Modification ou suppression de la recherche | RECH-03 | Couvert |
 | Profil Utilisateur | | Non couvert : conflit avec le PRD (Q5) |
