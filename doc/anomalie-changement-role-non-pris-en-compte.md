@@ -43,7 +43,8 @@ Délai observé : le rôle User n'était toujours pas pris en compte plus de 14 
 |---|---|---|
 | Vider le cache du navigateur | Oui | Aucun effet |
 | Se reconnecter le lendemain | Oui | Aucun effet |
-| Navigation privée ou autre navigateur | Non | [à faire, 5 minutes] |
+| Navigation privée | Oui | Aucun effet |
+| Déconnexion de toutes les applications puis reconnexion | Oui | Aucun effet |
 | Vérifier dans l'écran d'administration que le compte porte bien le rôle User | Non | [à faire, ou demander à un dev] |
 | Mesurer le délai exact (changement en début de journée, vérification toutes les heures) | Non | Optionnel |
 
