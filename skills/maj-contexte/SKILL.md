@@ -18,6 +18,7 @@ Le contexte est lu avant chaque analyse. Une erreur écrite ici se répète dans
 | `<id US>` | Les sections « Propositions pour le contexte » de `qc-reports/US-<id>.md` : celle de l'analyse et celle de la rédaction |
 | `po "<réponse>"` avec auteur et date | La réponse, et le point de la section 9 auquel elle répond |
 | `source <fichier>` | La nouvelle version dans `sources/`, comparée au contexte |
+| `sprint-<n>` | La section « Propositions pour le contexte » de `qc-reports/sprint-<n>-coherence.md` |
 
 Une réponse sans auteur ou sans date : la demander avant de continuer.
 
@@ -33,6 +34,8 @@ Lire ensuite `docs/projets/<projet>/CONTEXTE.md` en entier.
 | Réponse | Le PO répond à un point de la section 9 | Le point passe à « répondu » ; la règle entre en section 3, 5, 6 ou 7 |
 | Écart | Contradiction sans source plus récente | Un point en section 9, rien d'autre ne change |
 | Refus | Hypothèse, déduction, bonne pratique, question encore ouverte, détail propre à une seule US | Rien n'entre ; dire pourquoi |
+
+Après chaque US analysée, proposer aussi sa ligne dans le tableau « US du projet » (section 2) : titre, sprint, source lue et révision, cas de test. Un nouveau nom pour un objet déjà connu va dans « Termes et synonymes » (section 5).
 
 Ne retenir dans le contexte que ce qui servira à d'autres US : rôles, comptes et données de test, statuts, transitions, règles transverses, vocabulaire, écrans, variations (section 10), flux (section 11). Le détail d'une seule US reste dans son rapport.
 

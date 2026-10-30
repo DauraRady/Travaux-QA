@@ -26,7 +26,7 @@ Une bonne pratique, une habitude du domaine ou une convention d'interface ne ren
 
 ## Étape 0 : lire les sources
 
-1. Lire l'US : description, critères d'acceptation, et les commentaires quand ils sont demandés.
+1. Lire l'US : description, critères d'acceptation, et les commentaires quand ils sont demandés. Noter sa révision (`System.Rev`) et sa date de modification : la publication les comparera. Si Azure DevOps n'est pas joignable, lire l'export `docs/projets/<projet>/sources/US-<id>.md` s'il existe, et le dire. Un passage marqué « non lu » dans l'export n'est jamais complété : il devient une question.
 2. Lire `docs/projets/<projet>/CONTEXTE.md` en entier, y compris la section 9 (points à confirmer), la section 10 (variations) et la section 11 (flux). S'il n'existe pas, le dire en une ligne, proposer `/init-contexte` et continuer sans rien inventer pour compenser.
 3. Dans `docs/projets/<projet>/sources/`, lire seulement les passages que l'US ou le contexte citent.
 4. Une information donnée dans la demande (réponse du PO, texte d'une maquette) compte comme source seulement avec son auteur et sa date. Une décision du PO est de rang 2, un autre complément de rang 4.
@@ -77,6 +77,16 @@ Un détail manquant ne rend pas toute la règle À arbitrer. Si l'US dit ce qui 
 
 Une règle n'est À arbitrer que si le comportement lui-même manque ou se contredit. Une règle laissée À arbitrer alors que l'US décrit le comportement est une couverture perdue, aussi grave qu'un résultat inventé.
 
+## Étape 1 bis : croiser avec les autres US
+
+Pour chaque champ, écran, message ou règle de l'US :
+
+1. Chercher dans le contexte (sections 5, 6, 7, 9) et dans les US qu'il cite ce qui en parle déjà, y compris sous un autre nom (section 5, termes et synonymes).
+2. Classer l'écart éventuel : contradiction (deux règles ou deux messages pour la même chose), évolution (l'US change ce qu'une US plus ancienne décrivait), interaction (une autre US agit sur le même champ).
+3. Chaque écart devient une question au PO avec les deux citations. Ne jamais trancher.
+4. Si l'US reprend un point déjà ouvert en section 9 du contexte, reprendre son identifiant.
+5. Lister les cas de test existants (section 2 du contexte) que l'US rend faux ou incomplets.
+
 ## Étape 2 : préconditions
 
 Pour que les scénarios soient exécutables, relever ce qu'il faut AVANT l'action. Uniquement ce que disent l'US ou le contexte.
@@ -103,6 +113,16 @@ Une combinaison dont le résultat n'est écrit nulle part n'est jamais complét�
 Variantes venant du contexte : si une variation (section 10 : pays, rôle, type d'objet) ou un flux (section 11) touche cette US, l'ajouter aux combinaisons avec sa source. Ne garder que les variantes dont le résultat diffère : deux valeurs qui donnent le même résultat sont un seul cas.
 
 Dès qu'une règle dit « uniquement », « seulement », « exclut » ou « ne contient que », prévoir une combinaison avec un objet autorisé ET un objet non autorisé dans le même état de départ (filtrage mixte).
+
+## Étape 3 bis : testabilité et données
+
+Pour chaque règle Rédigeable, dire si elle se teste avec les données et l'environnement connus (contexte, sections 0 et 8). Sinon, une ligne :
+
+| Règle | Ce qu'il faut | Pourquoi ce n'est pas immédiat | À demander à |
+|---|---|---|---|
+| R14 | Une demande au statut Retard | Statut atteint après un délai | Développeur |
+
+Signaux typiques : statut qui dépend du temps, erreur technique à provoquer, donnée validée à injecter, valeur exclue du périmètre de recette, système externe à simuler. Une règle non testable reste Rédigeable : la difficulté est remontée, pas cachée.
 
 ## Étape 4 : limites et risques
 
@@ -131,7 +151,8 @@ US lue, contexte projet (date de mise à jour) ou « contexte absent », autres 
 Le tableau de l'étape 1.
 
 ## 3. Préconditions et combinaisons
-Les tableaux des étapes 2 et 3, puis les limites.
+Les tableaux des étapes 2 et 3, puis les limites, puis le tableau de testabilité (étape 3 bis).
+Puis les écarts avec les autres US (étape 1 bis) et les cas de test existants à revoir.
 
 ## 4. Questions au PO
 Une par règle À arbitrer : la règle citée, ce qui manque, la question, et « bloquante » ou « non bloquante ».

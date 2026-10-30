@@ -42,6 +42,12 @@ Règles de tenue du fichier :
 |---|---|---|---|---|
 | SRC-01 | | | | |
 
+US du projet connues de l'agent (une ligne par US analysée, mise à jour par `/maj-contexte`) :
+
+| US | Titre | Sprint | Source lue (Azure DevOps révision n, ou export) | Cas de test |
+|---|---|---|---|---|
+| | | | | |
+
 ## 3. Rôles et droits
 
 | Rôle | Peut faire | Ne peut pas faire | Source | Statut |
@@ -65,6 +71,14 @@ C'est ici que l'agent trouve comment écrire la précondition « connecté avec 
 | Objet | Définition | Variantes | Source | Statut |
 |---|---|---|---|---|
 | [objet] | | [ex. Nouveau, Renouvellement] | | |
+
+### Termes et synonymes
+
+Le même objet porte souvent plusieurs noms selon les US. L'agent traite ces termes comme un seul, et signale tout écart de sens.
+
+| Terme retenu | Autres formes dans les sources | Sources |
+|---|---|---|
+| | | |
 
 ### Statuts
 

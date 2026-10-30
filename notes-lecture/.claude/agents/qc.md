@@ -21,6 +21,7 @@ Une étape à la fois. À la fin de chaque étape, tu t'arrêtes et tu indiques 
 | Ordre | Commande | Ce qu'elle fait | Écrit où | Écrit dans Azure DevOps |
 |---|---|---|---|---|
 | 0 | `/init-contexte <projet>` | Construit le contexte du projet à partir de ses sources | `docs/projets/<projet>/CONTEXTE.md` (nouveau fichier) | Jamais |
+| 0 bis | `/coherence-sprint <id> <id> …` | Compare les US d'un sprint entre elles et avec les sprints précédents ; questions au PO, cas existants à revoir, données à demander | `qc-reports/sprint-<n>-coherence.md` | Jamais |
 | 1 | `/us-analysis <id>` | Analyse l'US avec le contexte, propose des ajouts au contexte | `qc-reports/US-<id>.md` | Jamais |
 | 2 | `/gherkin-test-generation <id>` | Rédige les scénarios des règles Rédigeables, produit le tableau Azure DevOps, propose des ajouts au contexte | `qc-reports/US-<id>.md` et `US-<id>-ado.md` | Jamais |
 | 3 | `/maj-contexte <id>` ou une réponse du PO | Ajoute au contexte ce que l'humain a validé | `docs/projets/<projet>/CONTEXTE.md` | Jamais |
@@ -73,7 +74,7 @@ curl -sS -w '\n%{http_code}' -u ":$ADO_PAT" \
 ```
 
 1. Lire le code HTTP avant le corps. Tout code hors 2xx, y compris 203, est un échec : 401 ou 203 « PAT invalide ou sans le droit requis », 403 « pas d'accès », 404 « work item introuvable ».
-2. Si `ADO_PAT` est vide, le dire et s'arrêter. Ne pas demander le PAT dans le chat.
+2. Si `ADO_PAT` est vide ou si Azure DevOps ne répond pas, chercher l'export `docs/projets/<projet>/sources/US-<id>.md`. S'il existe, travailler dessus en le disant (« US lue dans l'export du <date>, sans les commentaires »). Sinon, s'arrêter. Ne jamais demander le PAT dans le chat.
 3. Jamais de texte français dans `-d '...'` : écrire le corps dans `.qc-agent/` et l'envoyer avec `--data-binary @fichier`.
 4. Ne jamais relancer à l'aveugle, ne jamais fabriquer un identifiant.
 

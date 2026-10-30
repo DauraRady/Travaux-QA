@@ -9,6 +9,7 @@
 | `.claude/settings.json` | Permissions de l'équipe et garde-fou avant chaque commande |
 | `.claude/hooks/garde_ado.py` | Refuse l'affichage du PAT ; demande confirmation avant toute écriture dans Azure DevOps et avant `git commit` ou `git push` |
 | `.claude/skills/init-contexte/` | Crée le contexte d'un projet à partir de ses sources |
+| `.claude/skills/coherence-sprint/` | Compare les US d'un sprint entre elles et avec les sprints précédents : contradictions, évolutions, cas existants à revoir, données à demander |
 | `.claude/skills/us-analysis/` | Analyse d'une US avec le contexte, propositions pour le contexte |
 | `.claude/skills/gherkin-test-generation/` | Scénarios Gherkin en français, guide d'écriture, script de contrôle sans IA |
 | `.claude/skills/maj-contexte/` | Met à jour le contexte après validation |
@@ -44,6 +45,7 @@ L'agent doit être l'agent principal de la session, pas un sous-agent appelé en
 | Étape | Je tape | Résultat |
 |---|---|---|
 | Une fois par projet | `/init-contexte <projet>` | `docs/projets/<projet>/CONTEXTE.md`, à relire et commiter |
+| Début de sprint | `/coherence-sprint 1234 1235 1236 sprint=4` | `qc-reports/sprint-4-coherence.md` : écarts entre US, questions au PO, ordre d'analyse |
 | Analyser une US | `/us-analysis 1234` | `qc-reports/US-1234.md` : analyse et propositions pour le contexte |
 | Écrire les scénarios | `/gherkin-test-generation 1234` | Scénarios ajoutés au rapport, contrôlés par le script ; tableau `ID, Test case, Gherkin BDD scenario, Type of test` dans `qc-reports/US-1234-ado.md` |
 | Enrichir le contexte | `/maj-contexte 1234` | Reprend les propositions de l'analyse et de la rédaction ; aperçu des lignes, puis écriture après « oui » |
@@ -51,6 +53,8 @@ L'agent doit être l'agent principal de la session, pas un sous-agent appelé en
 | Publier | `/publication-ado 1234` | Aperçu, puis création après « oui » |
 | CSV à importer | `/publication-ado 1234 csv` | `qc-reports/US-1234-import.csv` |
 | Rédiger un bug | `/redaction-anomalie <ce que j'ai vu>` | Aperçu, puis création après « oui » |
+
+Sans accès à Azure DevOps, l'agent lit les US exportées dans `docs/projets/<projet>/sources/US-<id>.md` et le signale.
 
 Un document déposé ou un texte collé sans commande ne déclenche rien : l'agent dit ce qu'il a reçu et attend.
 

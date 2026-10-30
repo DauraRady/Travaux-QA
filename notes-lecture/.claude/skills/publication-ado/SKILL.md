@@ -25,7 +25,7 @@ Si une écriture répond 401 ou 403 en mode API, proposer le mode CSV au lieu de
 ## 1. Construire les cas sans IA
 
 1. Si `qc-reports/US-<id>.md` n'existe pas ou ne contient aucun bloc ```gherkin : STOP, « Rapport introuvable : lancer d'abord /us-analysis puis /gherkin-test-generation, et relire le rapport ».
-2. Lire l'US (`$expand=all`) pour `System.TeamProject`, `System.AreaPath`, `System.IterationPath`. Garder l'id comme `<usId>`.
+2. Lire l'US (`$expand=all`) pour `System.TeamProject`, `System.AreaPath`, `System.IterationPath` et `System.Rev`. Garder l'id comme `<usId>`. Si la révision est plus récente que celle notée dans le rapport, STOP : « L'US a changé depuis l'analyse (révision <a> lue, <b> actuelle) : relancer /us-analysis ou confirmer explicitement que la modification ne change pas les scénarios ».
 3. Personne à qui assigner les cas : l'adresse donnée dans la demande, sinon personne (le dire).
 4. Construire les corps de requête :
    ```bash
