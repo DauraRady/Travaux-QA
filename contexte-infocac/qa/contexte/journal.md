@@ -1,6 +1,6 @@
 # Contexte projet : InfoCAC : journal
 
-Journal des modifications. Lu seulement par l'agent contexte, pour y ajouter une ligne.
+Journal des modifications. Complété par l'agent qc-cas-de-test à chaque mise à jour du contexte.
 
 ## 12. Journal
 

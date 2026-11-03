@@ -23,10 +23,9 @@ Les US du sprint 3 sont connues par leurs cas de test (`cas-de-test/sprint-3/`),
 
 Résultat d'un premier essai, le 30/10/2026 : `cas-de-test/sprint-4/coherence-sprint-4.md` et `cas-de-test/sprint-4/analyse-US-429709.md`.
 
-## Version pour les agents qa-0 à qa-4 (dépôt Agent-qc)
+## Version pour les agents qc-analyse-us, qc-cas-de-test et qc-anomalie (dépôt Agent-qc)
 
 Le dossier `qa/` contient le même contexte découpé en trois fichiers (`socle.md`, `regles-et-points.md`, `journal.md`) et les exports d'US. Le copier à la racine du projet, à côté de `.github/agents/`, puis :
 
-1. Agent `qa-1-coherence-sprint` : `429709 426408 426409 429428 sprint=4`
-2. Agent `qa-2-analyse-us` : `429428`, puis les autres dans l'ordre proposé
-3. Agent `qa-3-cas-de-test` : `429428`
+1. Agent `qc-analyse-us` : `429709`
+2. Agent `qc-cas-de-test` : `429709`, puis `ajoute …` pour compléter, `contexte` pour enrichir le contexte
